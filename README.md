@@ -30,10 +30,10 @@ if($multiPDO->hasAnyErrors()) {
 ## Example Query #1: SELECT
 To select rows from ALL databases and ALL tables, you can simply do, like normal PDO in PHP:
 ```php
-$statement = $multiPDO->prepare("SELECT * FROM Users WHERE Username = :username LIMIT 1");
-$statement->bindValue(":username", "WulfGamesYT");
-$statement->execute();
-while($row = $statement->getNextRow()) { var_dump($row); }
+$selectQuery = $multiPDO->prepare("SELECT * FROM Users WHERE Username = :username");
+$selectQuery->bindValue(":username", "WulfGamesYT");
+$selectQuery->execute();
+while($row = $selectQuery->getNextRow()) { var_dump($row); }
 ```
 
 That will produce some example output like:
@@ -63,12 +63,26 @@ Notice that with the `execute()` method we pased in 2 parameters, this is requir
 ## Example Query #3: UPDATE
 This is basically the same as doing a SELECT query, this will update ALL tables in ALL databases that match the WHERE clause if specified, for example:
 ```php
-$statement = $multiPDO->prepare("UPDATE Users SET Username = :newusername WHERE Username = :oldusername");
-$statement->bindValue(":newusername", "MyFancyUsername");
-$statement->bindValue(":oldusername", "WulfGamesYT");
-$statement->execute();
+$updateQuery = $multiPDO->prepare("UPDATE Users SET Username = :newusername WHERE Username = :oldusername");
+$updateQuery->bindValue(":newusername", "MyFancyUsername");
+$updateQuery->bindValue(":oldusername", "WulfGamesYT");
+$updateQuery->execute();
 ```
 Now if we ran a SELECT query on ALL the tables named "Users" we will see the updated row.
+
+## Example Query #4: DELETE
+Again, all we need to do is:
+```php
+$deleteQuery = $multiPDO->prepare("DELETE FROM Users WHERE Username = :username");
+$deleteQuery->bindValue(":username", "MyFancyUsername");
+$deleteQuery->execute();
+```
+Now if we ran a SELECT query on ALL the tables named "Users" we will see the updated row.
+
+## Before Using, Read This
+There are some differences between this library and the standard PDO library, where some functions and parameters are different, here are some differences I can think of:
+* You can't pass in an array of placeholders and values in the `execute()` method, you must use `bindValue()` for each placeholder.
+* You can't bind PHP parameters, instead just use the `bindValue()` method and bind values.
 
 ## Known Issues & Bugs
 **Currently, there are some issues that plan on being fixed in some way:**<br>
