@@ -59,3 +59,13 @@ $insertQuery->execute(true, "Users");
 ```
 
 Notice that with the `execute()` method we pased in 2 parameters, this is required for inserting new rows, because it tells the class we're inserting, so we only insert a new row into the table with the lowest row count from all your databases, and secondly the name of the table (don't put untrusted user input here as SQL Injection can occur). Now check all your databases and you'll notice that the one with the lowest row count in the table "Users" has the new row in.
+
+## Example Query #3: UPDATE
+This is basically the same as doing a SELECT query, this will update ALL tables in ALL databases that match the WHERE clause if specified, for example:
+```php
+$statement = $multiPDO->prepare("UPDATE Users SET Username = :newusername WHERE Username = :oldusername");
+$statement->bindValue(":newusername", "MyFancyUsername");
+$statement->bindValue(":oldusername", "WulfGamesYT");
+$statement->execute();
+```
+Now if we ran a SELECT query on ALL the tables named "Users" we will see the updated row.
