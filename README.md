@@ -1,7 +1,7 @@
 ![MySQL & PHP](https://codegeekz.com/wp-content/uploads/php-mysql-logo-large.gif)
 
 # MultiDatabasePDO
-This is a **free**, **easy to use**, **lightweight** and **powerful** PHP library that allows you to connect to multiple MySQL databases through PDO. I've always wondered why MySQL doesn't have built in horizontal scaling thats simple for everyone. I've come up with a solution, just have multiple databases with the same table names and columns, and this library will allow you to scale, have as many databases as you want! Before you start using this class, please make sure you understand the [basics of PDO from the PHP docs](https://secure.php.net/manual/en/book.pdo.php).
+This is a **free**, **easy to use**, **lightweight** and **powerful** PHP library that allows you to connect to multiple MySQL databases through PDO. I've always wondered why MySQL doesn't have built in horizontal scaling thats simple for everyone. I've come up with a solution, just have multiple databases with the same table names and columns, and this library will allow you to scale, have as many databases as you want! Before you start using this library please make sure you understand [the basics of PDO](https://secure.php.net/manual/en/book.pdo.php).
 
 ## Features
 ✔ Connect to multiple MySQL databases using PDO, without having performance issues!<br>
