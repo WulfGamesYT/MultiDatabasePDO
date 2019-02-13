@@ -18,3 +18,11 @@ $multiPDO = new MultiDatabasePDO([
     ["mysql", "2.2.2.2", "database_2", "username", "password"]
 ]);
 ```
+
+Now we need to check for any errors using a simple function called `hasAnyErrors()`! You can get the failed connections by calling the function `getFailedConnections()`.
+```php
+if($multiPDO->hasAnyErrors()) {
+    error_log("Error connecting to database(s): " . $multiPDO->getFailedConnections());
+    exit("Error connecting to our main databases! Please try again later.");
+}
+```
