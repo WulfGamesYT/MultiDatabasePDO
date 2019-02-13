@@ -72,4 +72,4 @@ Now if we ran a SELECT query on ALL the tables named "Users" we will see the upd
 
 ## Known Issues & Bugs
 **Currently, there are some issues that plan on being fixed in some way:**<br>
-* The LIMIT keyboard doesn't work well, for example doing UPDATE and LIMIT 1 will actually update all table rows only once in each, but doing the query in multiple tables, therefore not limiting to 1 but the amount of databases.
+* The LIMIT keyword doesn't work, for example doing UPDATE and LIMIT 1 will actually update all table rows only once in each, but doing the query in multiple tables, therefore not limiting the query to 1, but instead to the amount of databases it executes to.
