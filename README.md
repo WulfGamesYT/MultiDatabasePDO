@@ -8,4 +8,11 @@ This is a free, easy to use, lightweight and powerful PHP library that allows yo
 * Free to use, and it's really easy too, which is great!
 
 ## Getting Started
-Test.
+Simply include the file `MultiDatabasePDO.php` in your autoload PHP class or include header file on all pages.
+Then you can connect to all your databases easily by doing:
+```php
+$multiPDO = new MultiDatabasePDO([
+    ["mysql", "1.1.1.1", "database_1", "username", "password"],
+    ["mysql", "2.2.2.2", "database_2", "username", "password"]
+]);
+```
