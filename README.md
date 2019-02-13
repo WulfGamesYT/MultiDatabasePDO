@@ -81,8 +81,8 @@ Now if we ran a SELECT query on ALL the tables named "Users" we will see the upd
 
 ## Before Using, Read This
 There are some differences between this library and the standard PDO library, where some functions and parameters are different, here are some differences I can think of:
-* You can't pass in an array of placeholders and values in the `execute()` method, you must use `bindValue()` for each placeholder.
-* You can't bind PHP parameters, instead just use the `bindValue()` method and bind values.
+* You can't pass in an array of placeholders/values in the `execute()` method, use `bindValue()` for each placeholder.
+* You can't bind PHP parameters, instead just use the `bindValue()` method.
 
 ## Known Issues & Bugs
 **Currently, there are some issues that plan on being fixed in some way:**<br>
