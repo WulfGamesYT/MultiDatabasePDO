@@ -26,3 +26,24 @@ if($multiPDO->hasAnyErrors()) {
     exit("Error connecting to our main databases! Please try again later.");
 }
 ```
+
+## Example Query #1: SELECT
+To select rows from ALL databases and ALL tables, you can simply do, like normal PDO in PHP:
+```php
+$statement = $multiPDO->prepare("SELECT * FROM Users WHERE Username = :username LIMIT 1");
+$statement->bindValue(":username", "WulfGamesYT");
+$statement->execute();
+while($row = $statement->getNextRow()) { var_dump($row); }
+```
+
+That will produce some example output like:
+```
+array(3) {
+  ["Username"]=>
+  string(11) "WulfGamesYT"
+  ["PasswordHash"]=>
+  string(21) "haha123"
+  ["Email"]=>
+  string(20) "you@dontknow.com"
+}
+```
