@@ -47,3 +47,15 @@ array(3) {
   string(20) "you@dontknow.com"
 }
 ```
+
+## Example Query #2: INSERT
+Say if we had a form and you can POST the info to your PHP file, and you want to insert 1 new record into a tabled named "Users", all you need to do is the following:
+```php
+$insertQuery = $multiPDO->prepare("INSERT INTO Users VALUES (:username, :passwd, :email)");
+$insertQuery->bindValue(":username", $_POST["username"]);
+$insertQuery->bindValue(":passwd", password_hash($_POST["password"], PASSWORD_DEFAULT));
+$insertQuery->bindValue(":email", $_POST["email"]);
+$insertQuery->execute(true, "Users");
+```
+
+Notice that with the `execute()` method we pased in 2 parameters, this is required for inserting new rows, because it tells the class we're inserting, so we only insert a new row into the table with the lowest row count from all your databases, and secondly the name of the table (don't put untrusted user input here as SQL Injection can occur). Now check all your databases and you'll notice that the one with the lowest row count in the table "Users" has the new row in.
