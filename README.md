@@ -155,7 +155,8 @@ Instead of `AUTO INCREMENT`, or if you need a way of generating unique strings i
 //Optionally we can pass in a length for the random string as the 3rd parameter, default length is 48.
 $randomID = $multiPDO->generateRandomID("ID", "Users");
 
-$insertQuery = $multiPDO->prepare("INSERT INTO Users VALUES (:id, :username, :pass, :email, :firstname, :lastname)");
+$longSQL = "INSERT INTO Users VALUES (:id, :username, :pass, :email, :firstname, :lastname)";
+$insertQuery = $multiPDO->prepare($longSQL);
 $insertQuery->bindValue(":id", $randomID);
 $insertQuery->bindValue(":username", $_POST["username"]);
 $insertQuery->bindValue(":pass", password_hash($_POST["password"], PASSWORD_DEFAULT));
@@ -168,7 +169,7 @@ $insertQuery->execute(true, "Users");
 The way the `generateRandomID()` function works is that it will:
 1. Generate a random string of desired length.
 2. Perform a SELECT query on all tables to see if the random string is there in the specified column.
-3. If it found a value (or multiple) then go back to step 1, else continue.
+3. If any rows exist with the value of the random string in the specified column go back to step 1, else continue.
 4. Return the random string.
 
 ## Have Questions?
