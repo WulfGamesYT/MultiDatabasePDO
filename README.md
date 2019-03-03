@@ -32,7 +32,7 @@ There are some differences between this library and the standard PDO library, wh
 * You can't pass in an array of placeholders/values in the `execute()` method, use `bindValue()` for each placeholder.
 * You can't bind PHP variables directly, use `bindValue()` method for assigning values to each placeholder.
 * You can't use `ORDER BY`, `LIMIT` or `OFFSET` in your SQL queries, instead please [see this guide](#organising-results).
-* Avoid using `AUTO INCREMENT` for columns, instead if you have an ID column [make use of this function here](#random-uuid-generator).
+* Avoid using `AUTO INCREMENT` for columns, instead if you have an ID column [make use of this function here](#random-id-generator).
 
 ## The Example Tables
 For example purposes, imagine we have the following tables, both called "Users". Each example in this README below will be using these tables and their values/columns. Note that you have to use the same columns for every table in ALL your databases.<br>
@@ -69,7 +69,7 @@ array(3) {
   ["Username"]=>
   string(11) "WulfGamesYT"
   ["Email"]=>
-  string(20) "wulf@example.com"
+  string(16) "wulf@example.com"
 }
 ```
 
@@ -85,7 +85,7 @@ $insertQuery->bindValue(":lastname", $_POST["name-last"]);
 $insertQuery->execute(true, "Users");
 ```
 
-Notice that with the `execute()` method we pased in 2 parameters, this is required for inserting new rows, because it tells the class we're inserting (by passing in: true) a new row into a table called "Users". For the table name, don't put untrusted user input here as SQL Injection can occur).
+Notice that with the `execute()` method we pased in 2 parameters, this is required for inserting new rows, because it tells the class we're inserting (by passing in: true) a new row into a table called "Users". Don't put untrusted user input as the second parameter as SQL Injection can occur.
 
 ## Example Query #3: UPDATE
 This is basically the same as doing a SELECT query, this will update ALL tables in ALL databases that match the WHERE clause if specified, for example:
@@ -95,6 +95,7 @@ $updateQuery->bindValue(":newusername", "MyFancyUsername");
 $updateQuery->bindValue(":oldusername", "WulfGamesYT");
 $updateQuery->execute();
 ```
+
 Now if we ran a SELECT query on ALL the tables named "Users" we will see the updated row.
 
 ## Example Query #4: DELETE
@@ -104,6 +105,7 @@ $deleteQuery = $multiPDO->prepare("DELETE FROM Users WHERE Username = :username"
 $deleteQuery->bindValue(":username", "MyFancyUsername");
 $deleteQuery->execute();
 ```
+
 Now if we ran a SELECT query on ALL the tables named "Users" we will see the updated row.
 
 ## Organising Results
@@ -146,14 +148,22 @@ $selectQuery->sortBy("FirstName", "ASC");
 while($row = $selectQuery->getNextRow()) { var_dump($row); }
 ```
 
-## Random UUID Generator
-Instead of `AUTO INCREMENT`, or if you need a way of generating unique strings in your tables for a column, you can make use of a function called `GenerateUUIDForTable()`. Here is an example of how to use it when inserting new rows into your tables:
+## Random ID Generator
+Instead of `AUTO INCREMENT`, or if you need a way of generating unique strings in your tables for a column, you can make use of a function called `GenerateRandomID()`. Here is an example of how to use it when inserting new rows into your tables:
 ```php
-TODO...
+//Here we generate a truly random string for the "ID" column in the "Users" table.
+$randomID = $multiPDO->GenerateRandomID("ID", "Users");
+
+$insertQuery = $multiPDO->prepare("INSERT INTO Users VALUES (:id, :username, :pass, :email, :firstname, :lastname)");
+$insertQuery->bindValue(":id", $randomID);
+$insertQuery->bindValue(":username", $_POST["username"]);
+$insertQuery->bindValue(":pass", password_hash($_POST["password"], PASSWORD_DEFAULT));
+$insertQuery->bindValue(":email", $_POST["email"]);
+$insertQuery->bindValue(":firstname", $_POST["name-first"]);
+$insertQuery->bindValue(":lastname", $_POST["name-last"]);
+$insertQuery->execute(true, "Users");
 ```
 
-## Known Issues & Bugs
-**Currently, there are some issues that plan on being fixed in some way:**<br>
-* The LIMIT keyword doesn't work, for example doing UPDATE and LIMIT 1 will actually update all table rows only once in each, but doing the query in multiple tables, therefore not limiting the query to 1, but instead to the amount of databases it executes to.
-* The OFFSET keyword doesn't work
-* 
+## Have Questions?
+If you need to ask a question, reach out to me on Twitter.
+Twitter: https://www.twitter.com/WulfGamesYT
