@@ -149,10 +149,10 @@ while($row = $selectQuery->getNextRow()) { var_dump($row); }
 ```
 
 ## Random ID Generator
-Instead of `AUTO INCREMENT`, or if you need a way of generating unique strings in your tables for a column, you can make use of a function called `GenerateRandomID()`. Here is an example of how to use it when inserting new rows into your tables:
+Instead of `AUTO INCREMENT`, or if you need a way of generating unique strings in your tables for a column, you can make use of a function called `generateRandomID()`. Here is an example of how to use it when inserting new rows into your tables:
 ```php
 //Here we generate a truly random string for the "ID" column in the "Users" table.
-$randomID = $multiPDO->GenerateRandomID("ID", "Users");
+$randomID = $multiPDO->generateRandomID("ID", "Users");
 
 $insertQuery = $multiPDO->prepare("INSERT INTO Users VALUES (:id, :username, :pass, :email, :firstname, :lastname)");
 $insertQuery->bindValue(":id", $randomID);
