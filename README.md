@@ -30,13 +30,13 @@ if($multiPDO->hasAnyErrors()) {
 ## The Example Table
 For example purposes, imagine we have the following table called "Users". Each example in this README below will be using this table and it's values/columns.<br>
 
-| ID (int)      | Username (text)     | PasswordHash (text)                    | Email (text)       | FirstName (text)       | LastName (text)       |
-| ------------- | ------------------- | -------------------------------------- | ------------- | ------------- | ------------- |
-| 1             | WulfGamesYT         | ThLfkbQFyvDx783PsqapeWYQXFH4S9WubXt5hY | Tables        | Tables        | Tables        |
-| 2             | IndianaJones55      | npxCn975RSaPazDLc7thwSgbHADzjUjxNM8bJm | Tables        | Tables        | Tables        |
-| 3             | YaBoiTableFlipper69 | BT7V2U6VJv2dAxac47peCXxApFqhFpeBzGUCUq | Tables        | Tables        | Tables        |
-| 4             | ReallyDude          | 6XBmD4bzGP875ZQPU53BwaxfBfFtCf4L6H2B7R | Tables        | Tables        | Tables        |
-| 5             | HellYeaBoi          | LeyTpTwvvMUMMWq56y8uWzWTsak6DrsBdXaRRH | Tables        | Tables        | Tables        |
+| ID (int)      | Username (text)     | PasswordHash (text) | Email (text)         | FirstName (text) | LastName (text) |
+| ------------- | ------------------- | ------------------- | -------------------- | ---------------- | --------------- |
+| 1             | WulfGamesYT         | ThLfkbQFyvDx        | wulf@example.com     | Liam             | Allen           |
+| 2             | IndianaJones55      | npxCn975RSaP        | im@indiana.jones     | Indiana          | Jones           |
+| 3             | YaBoiTableFlipper69 | BT7V2U6VJv2d        | yaboi@gmail.com      | Steve            | Jones           |
+| 4             | ReallyDude          | 6XBmD4bzGP87        | reallydude@yahoo.com | Liam             | Mason           |
+| 5             | HellYeaBoi          | LeyTpTwvvMUM        | hellyea@gmail.com    | Julie            | Crosby          |
 
 ## Example Query #1: SELECT
 To select rows from ALL databases and ALL tables, you can simply do, like normal PDO in PHP:
