@@ -79,11 +79,17 @@ $deleteQuery->execute();
 ```
 Now if we ran a SELECT query on ALL the tables named "Users" we will see the updated row.
 
+## Organising Results
+You'll probably notice... TODO...
+
 ## Before Using, Read This
 There are some differences between this library and the standard PDO library, where some functions and parameters are different, here are some differences I can think of:
 * You can't pass in an array of placeholders/values in the `execute()` method, use `bindValue()` for each placeholder.
-* You can't bind PHP parameters, instead just use the `bindValue()` method.
+* You can't bind PHP variables directly, use `bindValue()` method for assigning values to each placeholder.
+* You can't use `ORDER BY`, `LIMIT` or `OFFSET` in your SQL queries, instead please [see this guide](#organising-results).
 
 ## Known Issues & Bugs
 **Currently, there are some issues that plan on being fixed in some way:**<br>
 * The LIMIT keyword doesn't work, for example doing UPDATE and LIMIT 1 will actually update all table rows only once in each, but doing the query in multiple tables, therefore not limiting the query to 1, but instead to the amount of databases it executes to.
+* The OFFSET keyword doesn't work
+* 
