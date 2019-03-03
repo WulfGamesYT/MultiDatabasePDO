@@ -165,5 +165,5 @@ $insertQuery->execute(true, "Users");
 ```
 
 ## Have Questions?
-If you need to ask a question, reach out to me on Twitter.
+If you need to ask a question, reach out to me on Twitter.<br>
 Twitter: https://www.twitter.com/WulfGamesYT
