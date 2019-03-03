@@ -27,8 +27,15 @@ if($multiPDO->hasAnyErrors()) {
 }
 ```
 
+## Before Using, Read This
+There are some differences between this library and the standard PDO library, where some functions and parameters are different, here are some differences I can think of:
+* You can't pass in an array of placeholders/values in the `execute()` method, use `bindValue()` for each placeholder.
+* You can't bind PHP variables directly, use `bindValue()` method for assigning values to each placeholder.
+* You can't use `ORDER BY`, `LIMIT` or `OFFSET` in your SQL queries, instead please [see this guide](#organising-results).
+* Avoid using `AUTO INCREMENT` for columns, instead if you have an ID column [make use of this function here](#random-uuid-generator).
+
 ## The Example Tables
-Before we continue, please take a look at [these rules](#before-using-read-this) and then come back here. For example purposes, imagine we have the following tables, both called "Users". Each example in this README below will be using these tables and their values/columns. Note that you have to use the same columns for every table in ALL your databases.<br>
+For example purposes, imagine we have the following tables, both called "Users". Each example in this README below will be using these tables and their values/columns. Note that you have to use the same columns for every table in ALL your databases.<br>
 
 **"Users" table, from database 1.**<br>
 
@@ -144,13 +151,6 @@ Instead of `AUTO INCREMENT`, or if you need a way of generating unique strings i
 ```php
 TODO...
 ```
-
-## Before Using, Read This
-There are some differences between this library and the standard PDO library, where some functions and parameters are different, here are some differences I can think of:
-* You can't pass in an array of placeholders/values in the `execute()` method, use `bindValue()` for each placeholder.
-* You can't bind PHP variables directly, use `bindValue()` method for assigning values to each placeholder.
-* You can't use `ORDER BY`, `LIMIT` or `OFFSET` in your SQL queries, instead please [see this guide](#organising-results).
-* Avoid using `AUTO INCREMENT` for columns, instead if you have an ID column [make use of this function here](#random-uuid-generator).
 
 ## Known Issues & Bugs
 **Currently, there are some issues that plan on being fixed in some way:**<br>
