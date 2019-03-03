@@ -39,6 +39,8 @@ while($row = $selectQuery->getNextRow()) { var_dump($row); }
 That will produce some example output like:
 ```
 array(3) {
+  ["ID"]=>
+  int(1)
   ["Username"]=>
   string(11) "WulfGamesYT"
   ["PasswordHash"]=>
@@ -80,7 +82,44 @@ $deleteQuery->execute();
 Now if we ran a SELECT query on ALL the tables named "Users" we will see the updated row.
 
 ## Organising Results
-You'll probably notice... TODO...
+It's important to note you can't use `ORDER BY`, `LIMIT` or `OFFSET` in your SQL queries. Instead you have to use the following functions that are available, which make it easy to organise your final results/rows.
+
+**Ordering Results (instead of "ORDER BY"):**
+You can order your results just like you can in SQL queries with "ASC" or "DESC" passed into the second parameter to the `sortBy()` method.
+
+This is how you order number columns:
+```php
+$selectQuery = $multiPDO->prepare("SELECT * FROM Users");
+$selectQuery->execute();
+
+//Now sort by the "ID" column with data type: int(11) in descending order.
+$selectQuery->sortBy("ID", "DESC");
+
+while($row = $selectQuery->getNextRow()) { var_dump($row); }
+```
+
+This is how you order string/object columns:
+```php
+$selectQuery = $multiPDO->prepare("SELECT * FROM Users");
+$selectQuery->execute();
+
+//Now sort by the ID column with data type: int(11) in descending order.
+$selectQuery->sortBy("Username", "ASC");
+
+while($row = $selectQuery->getNextRow()) { var_dump($row); }
+```
+
+You can order multiple columns, or multiple times if you want. In the example below we will be ordering a column called "FirstName" in descending order, then a column called "LastName". This will list users in the table in alphabetical order, if they have the same first name then it will also order by the last name. Put the least important order column first, then the most important at the end as you can see in the code:
+```php
+$selectQuery = $multiPDO->prepare("SELECT * FROM Users");
+$selectQuery->execute();
+
+//Now sort both the columns.
+$selectQuery->sortBy("LastName", "ASC");
+$selectQuery->sortBy("FirstName", "ASC");
+
+while($row = $selectQuery->getNextRow()) { var_dump($row); }
+```
 
 ## Before Using, Read This
 There are some differences between this library and the standard PDO library, where some functions and parameters are different, here are some differences I can think of:
