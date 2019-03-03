@@ -28,15 +28,15 @@ if($multiPDO->hasAnyErrors()) {
 ```
 
 ## The Example Table
-For example purposes, imagine we have the following table. Each example in this README below will be using this table and it's values/columns.<br>
+For example purposes, imagine we have the following table called "Users". Each example in this README below will be using this table and it's values/columns.<br>
 
-| ID            | Tables        | EFFEEF        | EFEFEF        | EFEFGE        | EFEF33        |
-| ------------- | ------------- | ------------- | ------------- | ------------- | ------------- |
-| 1             | Tables        | Tables        | Tables        | Tables        | Tables        |
-| 2             | Tables        | Tables        | Tables        | Tables        | Tables        |
-| 3             | Tables        | Tables        | Tables        | Tables        | Tables        |
-| 4             | Tables        | Tables        | Tables        | Tables        | Tables        |
-
+| ID (int)      | Username (text)     | PasswordHash (text)                    | Email (text)       | FirstName (text)       | LastName (text)       |
+| ------------- | ------------------- | -------------------------------------- | ------------- | ------------- | ------------- |
+| 1             | WulfGamesYT         | ThLfkbQFyvDx783PsqapeWYQXFH4S9WubXt5hY | Tables        | Tables        | Tables        |
+| 2             | IndianaJones55      | npxCn975RSaPazDLc7thwSgbHADzjUjxNM8bJm | Tables        | Tables        | Tables        |
+| 3             | YaBoiTableFlipper69 | BT7V2U6VJv2dAxac47peCXxApFqhFpeBzGUCUq | Tables        | Tables        | Tables        |
+| 4             | ReallyDude          | 6XBmD4bzGP875ZQPU53BwaxfBfFtCf4L6H2B7R | Tables        | Tables        | Tables        |
+| 5             | HellYeaBoi          | LeyTpTwvvMUMMWq56y8uWzWTsak6DrsBdXaRRH | Tables        | Tables        | Tables        |
 
 ## Example Query #1: SELECT
 To select rows from ALL databases and ALL tables, you can simply do, like normal PDO in PHP:
