@@ -29,7 +29,7 @@ if($multiPDO->hasAnyErrors()) {
 
 ## The Example Table
 For example purposes, imagine we have the following table. Each example in this README below will be using this table and it's values/columns.
-| ID            | Tables        | Tables        | Tables        | Tables        | Tables        |
+| ID            | Tables        | EFFEEF        | EFEFEF        | EFEFGE        | EFEF33        |
 | ------------- | ------------- | ------------- | ------------- | ------------- | ------------- |
 | 1             | Tables        | Tables        | Tables        | Tables        | Tables        |
 | 2             | Tables        | Tables        | Tables        | Tables        | Tables        |
