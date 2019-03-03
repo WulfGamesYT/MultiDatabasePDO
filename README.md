@@ -27,21 +27,26 @@ if($multiPDO->hasAnyErrors()) {
 }
 ```
 
-## The Example Table
-For example purposes, imagine we have the following table called "Users". Each example in this README below will be using this table and it's values/columns.<br>
+## The Example Tables
+For example purposes, imagine we have the following tables, both called "Users". Each example in this README below will be using these tables and their values/columns. Note that you have to use the same columns for every table in ALL your databases.<br>
 
+**"Users" table, from database 1.**<br>
 | ID (int)      | Username (text)     | PassHash (text)     | Email (text)         | FirstName (text) | LastName (text) |
 | ------------- | ------------------- | ------------------- | -------------------- | ---------------- | --------------- |
 | 1             | WulfGamesYT         | ThLfkbQFyvDx        | wulf@example.com     | Liam             | Allen           |
 | 2             | IndianaJones55      | npxCn975RSaP        | im@indiana.jones     | Indiana          | Jones           |
 | 3             | YaBoiTableFlipper69 | BT7V2U6VJv2d        | yaboi@gmail.com      | Steve            | Jones           |
+
+**"Users" table, from database 2.**<br>
+| ID (int)      | Username (text)     | PassHash (text)     | Email (text)         | FirstName (text) | LastName (text) |
+| ------------- | ------------------- | ------------------- | -------------------- | ---------------- | --------------- |
 | 4             | ReallyDude          | 6XBmD4bzGP87        | reallydude@yahoo.com | Liam             | Mason           |
 | 5             | HellYeaBoi          | LeyTpTwvvMUM        | hellyea@gmail.com    | Julie            | Crosby          |
 
 ## Example Query #1: SELECT
 To select rows from ALL databases and ALL tables, you can simply do, like normal PDO in PHP:
 ```php
-$selectQuery = $multiPDO->prepare("SELECT * FROM Users WHERE Username = :username");
+$selectQuery = $multiPDO->prepare("SELECT ID, Username, Email FROM Users WHERE Username = :username");
 $selectQuery->bindValue(":username", "WulfGamesYT");
 $selectQuery->execute();
 while($row = $selectQuery->getNextRow()) { var_dump($row); }
@@ -54,24 +59,24 @@ array(3) {
   int(1)
   ["Username"]=>
   string(11) "WulfGamesYT"
-  ["PasswordHash"]=>
-  string(21) "haha123"
   ["Email"]=>
-  string(20) "you@dontknow.com"
+  string(20) "wulf@example.com"
 }
 ```
 
 ## Example Query #2: INSERT
-Say if we had a form and you can POST the info to your PHP file, and you want to insert 1 new record into a tabled named "Users", all you need to do is the following:
+Say if we had a form and you can POST the info to your PHP file, and you want to insert 1 new record into a table from a database called "Users", all you need to do is the following. Note that this will be inserted into the second table in the example tables above because it has the lowest row count.
 ```php
-$insertQuery = $multiPDO->prepare("INSERT INTO Users VALUES (:username, :passwd, :email)");
+$insertQuery = $multiPDO->prepare("INSERT INTO Users VALUES (NULL, :username, :pass, :email, :firstname, :lastname)");
 $insertQuery->bindValue(":username", $_POST["username"]);
-$insertQuery->bindValue(":passwd", password_hash($_POST["password"], PASSWORD_DEFAULT));
+$insertQuery->bindValue(":pass", password_hash($_POST["password"], PASSWORD_DEFAULT));
 $insertQuery->bindValue(":email", $_POST["email"]);
+$insertQuery->bindValue(":firstname", $_POST["name-first"]);
+$insertQuery->bindValue(":lastname", $_POST["name-last"]);
 $insertQuery->execute(true, "Users");
 ```
 
-Notice that with the `execute()` method we pased in 2 parameters, this is required for inserting new rows, because it tells the class we're inserting, so we only insert a new row into the table with the lowest row count from all your databases, and secondly the name of the table (don't put untrusted user input here as SQL Injection can occur). Now check all your databases and you'll notice that the one with the lowest row count in the table "Users" has the new row in.
+Notice that with the `execute()` method we pased in 2 parameters, this is required for inserting new rows, because it tells the class we're inserting (by passing in: true) a new row into a table called "Users". For the table name, don't put untrusted user input here as SQL Injection can occur).
 
 ## Example Query #3: UPDATE
 This is basically the same as doing a SELECT query, this will update ALL tables in ALL databases that match the WHERE clause if specified, for example:
