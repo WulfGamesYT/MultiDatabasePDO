@@ -30,7 +30,7 @@ if($multiPDO->hasAnyErrors()) {
 ## The Example Table
 For example purposes, imagine we have the following table called "Users". Each example in this README below will be using this table and it's values/columns.<br>
 
-| ID (int)      | Username (text)     | PasswordHash (text) | Email (text)         | FirstName (text) | LastName (text) |
+| ID (int)      | Username (text)     | PassHash (text)     | Email (text)         | FirstName (text) | LastName (text) |
 | ------------- | ------------------- | ------------------- | -------------------- | ---------------- | --------------- |
 | 1             | WulfGamesYT         | ThLfkbQFyvDx        | wulf@example.com     | Liam             | Allen           |
 | 2             | IndianaJones55      | npxCn975RSaP        | im@indiana.jones     | Indiana          | Jones           |
