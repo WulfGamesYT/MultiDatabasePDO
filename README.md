@@ -31,6 +31,7 @@ if($multiPDO->hasAnyErrors()) {
 For example purposes, imagine we have the following tables, both called "Users". Each example in this README below will be using these tables and their values/columns. Note that you have to use the same columns for every table in ALL your databases.<br>
 
 **"Users" table, from database 1.**<br><br>
+
 | ID (int)      | Username (text)     | PassHash (text)     | Email (text)         | FirstName (text) | LastName (text) |
 | ------------- | ------------------- | ------------------- | -------------------- | ---------------- | --------------- |
 | 1             | WulfGamesYT         | ThLfkbQFyvDx        | wulf@example.com     | Liam             | Allen           |
@@ -38,6 +39,7 @@ For example purposes, imagine we have the following tables, both called "Users".
 | 3             | YaBoiTableFlipper69 | BT7V2U6VJv2d        | yaboi@gmail.com      | Steve            | Jones           |
 
 **"Users" table, from database 2.**<br><br>
+
 | ID (int)      | Username (text)     | PassHash (text)     | Email (text)         | FirstName (text) | LastName (text) |
 | ------------- | ------------------- | ------------------- | -------------------- | ---------------- | --------------- |
 | 4             | ReallyDude          | 6XBmD4bzGP87        | reallydude@yahoo.com | Liam             | Mason           |
