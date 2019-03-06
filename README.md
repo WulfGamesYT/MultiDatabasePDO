@@ -12,8 +12,8 @@ This is a **free**, **easy to use**, **lightweight** and **powerful** PHP librar
 ✔ Free to use, and it's really easy too, which is great!
 
 ## Requirements
-&#128024; PHP & Apache/Nginx (I would recommend PHP 7 as it's the latest, fastest version).<br>
-📑 MySQL (I've tested MySQL 5.7 and it works fine, so I'd say MySQL 5+).
+&#10132; PHP & Apache/Nginx (I would recommend PHP 7 as it's the latest, fastest version).<br>
+&#10132; MySQL (I've tested MySQL 5.7 and it works fine, so I'd say MySQL 5+).
 
 ## Getting Started
 Simply include the file `MultiDatabasePDO.php` in your autoload PHP class or include header file on all pages.
