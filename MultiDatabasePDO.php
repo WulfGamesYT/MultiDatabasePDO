@@ -1,4 +1,4 @@
-<?
+<?php
     class MultiDatabasePDO {
         
         /**
@@ -213,4 +213,3 @@
         }
 
     }
-?>
