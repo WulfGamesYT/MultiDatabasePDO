@@ -16,7 +16,7 @@ This is a **free**, **easy to use**, **lightweight** and **powerful** PHP librar
 &#10132; MySQL (I've tested MySQL 5.7 and it works fine, so I'd say MySQL 5+).
 
 ## Getting Started
-Simply include the file `[MultiDatabasePDO.php](https://github.com/WulfGamesYT/MultiDatabasePDO/raw/master/MultiDatabasePDO.php)` in your autoload PHP class or include header file on all pages.
+Simply include the file [`MultiDatabasePDO.php`](https://github.com/WulfGamesYT/MultiDatabasePDO/raw/master/MultiDatabasePDO.php) in your autoload PHP class or include header file on all pages.
 Then you can connect to all your databases easily by doing:
 ```php
 $multiPDO = new MultiDatabasePDO([
@@ -34,7 +34,7 @@ if($multiPDO->hasAnyErrors()) {
 ```
 
 ## Before Using, Read This
-There are some differences between this library and the standard PDO library, where some functions and parameters are different, here are some differences I can think of:
+There are some differences between this library and the standard PDO library, where some functions and parameters are different:
 * You can't pass in an array of placeholders/values in the `execute()` method, use `bindValue()` for each placeholder.
 * You can't bind PHP variables directly, use `bindValue()` method for assigning values to each placeholder.
 * You can't use `ORDER BY`, `LIMIT` or `OFFSET` in your SQL queries, instead please [see this guide](#organising-results).
