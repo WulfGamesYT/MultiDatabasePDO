@@ -178,6 +178,9 @@ The way the `generateRandomID()` function works is that it will:
 3. If any rows exist with the value of the random string in the specified column go back to step 1, else continue.
 4. Return the random string.
 
-## Have Questions?
+## Have Questions? Like It?
 If you need to ask a question, reach out to me on Twitter.<br>
 Twitter: https://www.twitter.com/WulfGamesYT
+
+If you like this library please consider starring it and sharing it with your dev mates who love PHP and MySQL!
+Thank you for reading, that's all for today. 😀
