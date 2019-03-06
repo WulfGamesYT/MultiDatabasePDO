@@ -16,7 +16,7 @@ This is a **free**, **easy to use**, **lightweight** and **powerful** PHP librar
 &#10132; MySQL (I've tested MySQL 5.7 and it works fine, so I'd say MySQL 5+).
 
 ## Getting Started
-Simply include the file `MultiDatabasePDO.php` in your autoload PHP class or include header file on all pages.
+Simply include the file `[MultiDatabasePDO.php](https://github.com/WulfGamesYT/MultiDatabasePDO/raw/master/MultiDatabasePDO.php)` in your autoload PHP class or include header file on all pages.
 Then you can connect to all your databases easily by doing:
 ```php
 $multiPDO = new MultiDatabasePDO([
