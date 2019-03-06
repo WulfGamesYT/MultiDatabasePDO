@@ -182,5 +182,4 @@ The way the `generateRandomID()` function works is that it will:
 If you need to ask a question, reach out to me on Twitter.<br>
 Twitter: https://www.twitter.com/WulfGamesYT
 
-If you like this library please consider starring it and sharing it with your dev mates who love PHP and MySQL!
-Thank you for reading, that's all for today. 😀
+If you like this library please consider starring it and sharing it with fellow developers who like PHP & MySQL! Stay tuned for updates I make to this and report any bugs to me. Thank you for reading, that's all for today. &#9787;
