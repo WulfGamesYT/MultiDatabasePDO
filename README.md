@@ -11,6 +11,10 @@ This is a **free**, **easy to use**, **lightweight** and **powerful** PHP librar
 ✔ Perform insert queries efficiently by only doing 1 query instead of adding into all databases/tables.<br>
 ✔ Free to use, and it's really easy too, which is great!
 
+## Requirements
+🐘 PHP & Apache/Nginx (I would recommend PHP 7 as it's the latest, fastest version).
+📑 MySQL (I've tested MySQL 5.7 and it works fine, so I'd say MySQL 5+).
+
 ## Getting Started
 Simply include the file `MultiDatabasePDO.php` in your autoload PHP class or include header file on all pages.
 Then you can connect to all your databases easily by doing:
