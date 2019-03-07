@@ -76,7 +76,7 @@
          * @method Gets all failed connections.
         **/
         public function getFailedConnections() {
-            return implode(" / ", $this->failedConnections);
+            return join(" / ", $this->failedConnections);
         }
         
         /**
@@ -84,8 +84,8 @@
          * Once called, all connections are reset ready for the class to be unloaded.
         **/
         public function finishAndClose() {
-            foreach($this->pdoDatabases as $pdo) { $pdo = null; }
-            foreach($this->multiStatements as $multiStatement) { $multiStatement = null; }
+            foreach($this->pdoDatabases as &$pdo) { $pdo = null; }
+            foreach($this->multiStatements as &$multiStatement) { $multiStatement = null; }
             $this->pdoDatabases = [];
             $this->multiStatements = [];
             $this->latestPreparedStatements = [];
@@ -184,7 +184,7 @@
         **/
         public function limitTo($limit, $offset = 0) {
             if(count($this->returnedRows) > $limit) {
-                array_slice($this->returnedRows, $offset, $limit);
+                $this->returnedRows = array_slice($this->returnedRows, $offset, $limit);
             } else {
                 $this->returnedRows = [];
             }
