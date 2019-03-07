@@ -15,6 +15,11 @@ This is a **free**, **easy to use**, **lightweight** and **powerful** PHP librar
 &#10132; PHP & Apache/Nginx (I would recommend PHP 7 as it's the latest, fastest version).<br>
 &#10132; MySQL (I've tested MySQL 5.7 and it works fine, so I'd say MySQL 5+).
 
+## Licence
+You may use MultiDatabasePDO for personal, educational and commercial use under the following terms:
+&#10132; You don't sell, give or host (original or edited copies) of this library to other users, you must link them to this repository.
+&#10132; You don't change the comment in the file or remove it, doing so will make me think you want to claim it as your own.
+
 ## Getting Started
 Simply include the file [`MultiDatabasePDO.php`](https://github.com/WulfGamesYT/MultiDatabasePDO/raw/master/MultiDatabasePDO.php) in your autoload PHP class or include header file on all pages.
 Then you can connect to all your databases easily by doing:
