@@ -11,7 +11,7 @@ public function __construct(array $connectionParamsList)
 `$connectionParamsList` The list of databases to initially connect to, you must supply a DSN, username and password for each.
 
 
-#### Function: Has Any Errors
+# Function: Has Any Errors
 ```php
 public function hasAnyErrors() : bool
 ```
