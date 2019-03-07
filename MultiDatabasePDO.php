@@ -4,10 +4,8 @@
         /**
          * ----------------------------------------------------------------------------------------------
          * 
-         *     You are using MultiDatabasePDO v1.0.0 - Copyright Liam Allen (WulfGamesYT), All Rights Reserved.
-         *     You may use this PHP Script for any project, even commercially under the following terms:
-         *       - You may not sell this script as part of a bundle, or seperately to anyone.
-         *       - You must keep this comment, removing it makes me think you want to claim this as your own.
+         *     You are using MultiDatabasePDO v1.0.1 - Copyright Liam Allen (WulfGamesYT), All Rights Reserved.
+         *     Licence terms: https://github.com/WulfGamesYT/MultiDatabasePDO#licence
          * 
          * ----------------------------------------------------------------------------------------------
         **/
@@ -50,7 +48,7 @@
         /**
          * @method Prepare a SQL command to then bind values to, returns a multi statement object.
         **/
-        public function prepare($query) {
+        public function prepare(string $query) : MultiDatabasePDOStatement {
             $multiStatement = new MultiDatabasePDOStatement($this->pdoDatabases, $query);
             $this->multiStatements[] = $multiStatement;
             return $multiStatement;
@@ -59,24 +57,24 @@
         /**
          * @method Set a single PDO Attribute to all connections.
         **/
-        public function addPDOAttribute($attribute, $value) {
+        public function addPDOAttribute(int $attribute, $value) {
             foreach($this->pdoDatabases as $pdo) {
                 $pdo->setAttribute($attribute, $value);
             }
         }
         
         /**
-         * @method Checks if there are any errors.
+         * @method Checks if there were any errors connecting to the database(s).
         **/
-        public function hasAnyErrors() {
+        public function hasAnyErrors() : bool {
             return $this->hasAnError;
         }
         
         /**
          * @method Gets all failed connections.
         **/
-        public function getFailedConnections() {
-            return implode(" / ", $this->failedConnections);
+        public function getFailedConnections() : string {
+            return join(" / ", $this->failedConnections);
         }
         
         /**
@@ -84,8 +82,8 @@
          * Once called, all connections are reset ready for the class to be unloaded.
         **/
         public function finishAndClose() {
-            foreach($this->pdoDatabases as $pdo) { $pdo = null; }
-            foreach($this->multiStatements as $multiStatement) { $multiStatement = null; }
+            foreach($this->pdoDatabases as &$pdo) { $pdo = null; }
+            foreach($this->multiStatements as &$multiStatement) { $multiStatement = null; }
             $this->pdoDatabases = [];
             $this->multiStatements = [];
             $this->latestPreparedStatements = [];
@@ -108,7 +106,7 @@
         /**
          * @method Here we can create a new statement for all PDO databases.
         **/
-        public function __construct($pdoDatabases, $query) {
+        public function __construct(array $pdoDatabases, string $query) {
             $this->originalPDODatabases = $pdoDatabases;
             foreach($pdoDatabases as $pdo) {
                 $statement = $pdo->prepare($query);
@@ -119,7 +117,7 @@
         /**
          * @method Bind a value to each prepared statement.
         **/
-        public function bindValue($nameOrNumber, $value) {
+        public function bindValue(string $nameOrNumber, mixed $value) {
             foreach($this->preparedStatements as $statement) {
                 $statement->bindValue($nameOrNumber, $value);
             }
@@ -132,7 +130,7 @@
          *   - Data is inserted into the table which has the least amount of rows.
          *   - You will need to provide a table name with $tableName variable.
         **/
-        public function execute($insertMode = false, $tableName = "") {
+        public function execute(bool $insertMode = false, string $tableName = "") : array {
             $this->returnedRows = [];
 
             if($insertMode === true) {
@@ -148,7 +146,7 @@
                 $pdoDatabaseCount = count($this->originalPDODatabases);
                 for($i = 0; $i < $pdoDatabaseCount; $i++) {
                     $pdo = $this->originalPDODatabases[$i];
-                    $check = $pdo->prepare("SELECT * FROM $tableName");
+                    $check = $pdo->prepare("SELECT * FROM `$tableName`");
                     $check->execute();
                     if($check->rowCount() < $lowestTableRowCount) {
                         $lowestTableRowCountDatabase = $i;
@@ -172,7 +170,7 @@
         /**
          * @method Fetches next row and deletes it afterwards ready for the next.
         **/
-        public function getNextRow() {
+        public function getNextRow() : ?array {
             $nextRow = isset($this->returnedRows[0]) ? $this->returnedRows[0] : null;
             if($nextRow !== null) { array_splice($this->returnedRows, 0, 1); }
             return $nextRow;
@@ -182,9 +180,9 @@
          * @method Limits the returned rows to a specific amount, with an optional offset.
          * Instead of putting 'LIMIT 5, 10' in your SQL queries, use this method instead, after you've executed.
         **/
-        public function limitTo($limit, $offset = 0) {
+        public function limitTo(int $limit, int $offset = 0) {
             if(count($this->returnedRows) > $limit) {
-                array_slice($this->returnedRows, $offset, $limit);
+                $this->returnedRows = array_slice($this->returnedRows, $offset, $limit);
             } else {
                 $this->returnedRows = [];
             }
@@ -194,18 +192,28 @@
          * @method Sort columns in the returned rows in a specific direction, either 'ASC' or 'DESC'.
          * Instead of putting 'SORT BY ColumnName DESC' in your SQL queries, use this method instead, after you've executed.
         **/
-        public function sortBy($column, $direction) {
+        public function sortBy(string $column, string $direction) {
             if($direction === "ASC" || $direction === "DESC") {
                 if(count($this->returnedRows) > 0) {
-                    if(gettype($this->returnedRows[0][$column]) === "string") {
-                        return $this->returnedRows;
-                    } else {
+                    $columnDataType = gettype($this->returnedRows[0][$column]);
+                    
+                    //Sort whole numbers and doubles/floats.
+                    if($columnDataType === "integer" || $columnDataType === "double") {
                         usort($this->returnedRows, function($a, $b) use ($column, $direction) {
                             return $direction === "ASC" ? ($a[$column] > $b[$column]) : ($a[$column] < $b[$column]);
                         });
+                    } else {
+                        //Sort strings, objects, null etc.
+                        $rowSize = count($this->returnedRows);
+                        for($i = 0; $i < $rowSize; $i++) {
+                            $this->returnedRows[$i][$column] = strval($this->returnedRows[$i][$column]);
+                        }
+
+                        usort($this->returnedRows, function($a, $b) use ($column, $direction) {
+                            $pos = strcmp($a[$column], $b[$column]);
+                            return $direction === "ASC" ? $pos : -$pos;
+                        });
                     }
-                } else {
-                    return $this->returnedRows;
                 }
             } else {
                 throw new Exception("Invalid sort direction, please use either 'ASC' or 'DESC'.");
