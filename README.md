@@ -14,7 +14,7 @@ This is a **free**, **easy to use**, **lightweight** and **powerful** PHP librar
 ## Requirements
 &#10132; PHP 7+ & Apache/Nginx (uses features for PHP 7 and above).<br>
 &#10132; MySQL 5.7+ (to clarify MySQL 5.7 works fine, so any version higher than MySQL 5.7 would be great).<br>
-&#10132; A PDO-compatible database driver ([read more about this here](https://secure.php.net/manual/en/ref.pdo-mysql.php])).
+&#10132; A PDO-compatible database driver ( [read more about this here](https://secure.php.net/manual/en/ref.pdo-mysql.php]) ).
 
 ## Licence
 **You may use MultiDatabasePDO for personal, educational and commercial use under the following terms:**<br>
