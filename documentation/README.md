@@ -7,8 +7,10 @@ This is the main class, you should only have 1 instance of this throughout PHP. 
 ### Function: Constructor
 ```php
 public function __construct(array $connectionParamsList)
+
+//----------------------------------------------------
+//$connectionParamsList - The list of databases to initially connect to, you must supply a DSN, username and password for each.
 ```
-`$connectionParamsList` The list of databases to initially connect to, you must supply a DSN, username and password for each.
 
 ### Function: Has Any Errors
 ```php
