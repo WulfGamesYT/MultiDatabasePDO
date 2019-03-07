@@ -16,7 +16,7 @@ This is a **free**, **easy to use**, **lightweight** and **powerful** PHP librar
 &#10132; MySQL (I've tested MySQL 5.7 and it works fine, so I'd say MySQL 5+).
 
 ## Licence
-You may use MultiDatabasePDO for personal, educational and commercial use under the following terms:<br>
+**You may use MultiDatabasePDO for personal, educational and commercial use under the following terms:**<br>
 &#10132; You don't sell, give or host (original or edited copies) of this library to other users, you must link them to this repository.<br>
 &#10132; You don't change the comment in the file or remove it, doing so will make me think you want to claim it as your own.
 
