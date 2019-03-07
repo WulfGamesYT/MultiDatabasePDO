@@ -6,8 +6,9 @@ This is the main class, you should only have 1 instance of this throughout PHP. 
 
 ### Constructor
 ```php
-__construct(array $connectionParamsList)
+public function __construct(array $connectionParamsList)
 ```
+* `$connectionParamsList` The array of database DSN's to initially connect to.
 
 ## Class: MultiDatabasePDOStatement
 This is a class to hold all the information about a query to all tables.
