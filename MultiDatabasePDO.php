@@ -4,7 +4,7 @@
         /**
          * ----------------------------------------------------------------------------------------------
          * 
-         *     You are using MultiDatabasePDO v1.0.1 - Copyright Liam Allen (WulfGamesYT), All Rights Reserved.
+         *     You are using MultiDatabasePDO v1.0.2 - Copyright Liam Allen (WulfGamesYT), All Rights Reserved.
          *     Licence terms: https://github.com/WulfGamesYT/MultiDatabasePDO#licence
          * 
          * ----------------------------------------------------------------------------------------------
@@ -76,6 +76,25 @@
         public function getFailedConnections() : string {
             return join(" / ", $this->failedConnections);
         }
+
+        /**
+         * @method Generates and returns a random unique string to use as a primary key in tables.
+        **/
+        public function generateRandomID(string $column, string $table, int $length = 48) : string {
+            $uniqueStringOptions = [
+                "chars" => "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ",
+                "result" => ""
+            ];
+
+            for($i = 0; $i < $length; $i++) {
+                $uniqueStringOptions["result"] .= $uniqueStringOptions["chars"][rand(0, strlen($uniqueStringOptions["chars"]) - 1)];
+            }
+
+            $checkUniqueString = $this->prepare("SELECT * FROM `$table` WHERE `$column` = :multipdoidstring");
+            $checkUniqueString->bindValue(":multipdoidstring", $uniqueStringOptions["result"]);
+            $checkUniqueString->execute();
+            return $checkUniqueString->rowCount() === 0 ? $uniqueStringOptions["result"] : $this->generateRandomID($column, $table, $length);
+        }
         
         /**
          * @method When you've finished, call this function to close all the connections.
@@ -117,7 +136,7 @@
         /**
          * @method Bind a value to each prepared statement.
         **/
-        public function bindValue(string $nameOrNumber, mixed $value) {
+        public function bindValue(string $nameOrNumber, $value) {
             foreach($this->preparedStatements as $statement) {
                 $statement->bindValue($nameOrNumber, $value);
             }
@@ -128,13 +147,13 @@
          * If $insertMode is true, then:
          *   - Insert query will only be run once.
          *   - Data is inserted into the table which has the least amount of rows.
-         *   - You will need to provide a table name with $tableName variable.
+         *   - You will need to provide a table name with $table variable.
         **/
-        public function execute(bool $insertMode = false, string $tableName = "") : array {
+        public function execute(bool $insertMode = false, string $table = "") : array {
             $this->returnedRows = [];
 
             if($insertMode === true) {
-                if($tableName === "") {
+                if($table === "") {
                     throw new Exception("Invalid table name, you must specify a table to insert a new row into (will only run once).");
                     exit;
                 }
@@ -146,7 +165,7 @@
                 $pdoDatabaseCount = count($this->originalPDODatabases);
                 for($i = 0; $i < $pdoDatabaseCount; $i++) {
                     $pdo = $this->originalPDODatabases[$i];
-                    $check = $pdo->prepare("SELECT * FROM `$tableName`");
+                    $check = $pdo->prepare("SELECT * FROM `$table`");
                     $check->execute();
                     if($check->rowCount() < $lowestTableRowCount) {
                         $lowestTableRowCountDatabase = $i;
@@ -168,6 +187,13 @@
         }
 
         /**
+         * @method Returns the current row count.
+        **/
+        public function rowCount() : int {
+            return count($this->returnedRows);
+        }
+
+        /**
          * @method Fetches next row and deletes it afterwards ready for the next.
         **/
         public function getNextRow() : ?array {
@@ -178,7 +204,6 @@
 
         /**
          * @method Limits the returned rows to a specific amount, with an optional offset.
-         * Instead of putting 'LIMIT 5, 10' in your SQL queries, use this method instead, after you've executed.
         **/
         public function limitTo(int $limit, int $offset = 0) {
             if(count($this->returnedRows) > $limit) {
@@ -190,7 +215,6 @@
 
         /**
          * @method Sort columns in the returned rows in a specific direction, either 'ASC' or 'DESC'.
-         * Instead of putting 'SORT BY ColumnName DESC' in your SQL queries, use this method instead, after you've executed.
         **/
         public function sortBy(string $column, string $direction) {
             if($direction === "ASC" || $direction === "DESC") {
