@@ -21,7 +21,7 @@ This is a class to hold all the information about a query to all tables.
 
 ### Function: Bind Value
 ```php
-public function bindValue(string $nameOrNumber, $value)
+public function bindValue($nameOrNumber, $value)
 ```
-`$nameOrNumber` The name or number of the placeholder (must precede with a colon ':' if using a string placeholder).
+`$nameOrNumber` The name or number of the placeholder (must precede with a colon ':' if using a string placeholder).<br>
 `$value` The variable or value to pass to the placeholder.
