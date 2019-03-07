@@ -12,8 +12,8 @@ This is a **free**, **easy to use**, **lightweight** and **powerful** PHP librar
 ✔ Free to use, and it's really easy too, which is great!
 
 ## Requirements
-&#10132; PHP & Apache/Nginx (I would recommend PHP 7 as it's the latest, fastest version).<br>
-&#10132; MySQL (I've tested MySQL 5.7 and it works fine, so I'd say MySQL 5+).
+&#10132; PHP 7+ & Apache/Nginx (uses features for PHP 7 and above).<br>
+&#10132; MySQL 5.7+ (to clarify MySQL 5.7 works fine, so any version higher than MySQL 5.7 would be great).
 
 ## Licence
 **You may use MultiDatabasePDO for personal, educational and commercial use under the following terms:**<br>
