@@ -1,16 +1,16 @@
 # MultiDatabasePDO Documentation
 Here is the list of all the public functions you can use in the latest version (some public functions are unlisted because they are for use by the main class only). The latest version of MultiDatabasePDO can be found here: https://github.com/WulfGamesYT/MultiDatabasePDO/raw/master/MultiDatabasePDO.php
 
+TODO: Move this to an actual wiki.
+
 ## Class: MultiDatabasePDO
 This is the main class, you should only have 1 instance of this throughout PHP. It holds all the information about the currently connected databases and tables/queries.
 
 ### Function: Constructor
 ```php
 public function __construct(array $connectionParamsList)
-
-//----------------------------------------------------
-//$connectionParamsList - The list of databases to initially connect to, you must supply a DSN, username and password for each.
 ```
+`$connectionParamsList` The list of databases to initially connect to, you must supply a DSN, username and password for each.
 
 ### Function: Has Any Errors
 ```php
