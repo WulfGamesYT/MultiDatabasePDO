@@ -1,4 +1,4 @@
-![MySQL & PHP](https://codegeekz.com/wp-content/uploads/php-mysql-logo-large.gif)
+[![MySQL & PHP](https://codegeekz.com/wp-content/uploads/php-mysql-logo-large.gif)](https://github.com/WulfGamesYT/MultiDatabasePDO)
 <br><br>
 [![Current Version](https://dabuttonfactory.com/button.png?f=Open+Sans&ts=16&tc=666&hp=24&vp=12&c=round&bgt=unicolored&bgc=eee&bs=1&bc=ccc&t=Latest+Version%3A+v1.0.2)](https://github.com/WulfGamesYT/MultiDatabasePDO/raw/master/MultiDatabasePDO.php)
 
