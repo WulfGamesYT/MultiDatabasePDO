@@ -38,7 +38,7 @@ if($multiPDO->hasAnyErrors()) {
 }
 ```
 
-Next, I would recommend (reading the documentation on the wiki)[https://github.com/WulfGamesYT/MultiDatabasePDO/wiki] to understand what each function does.
+Next, I would recommend [reading the documentation on the wiki](https://github.com/WulfGamesYT/MultiDatabasePDO/wiki) to understand what each function does.
 
 There are some differences between this library and the standard PDO library, notably:
 * You can't pass in an array of placeholders/values in the `execute()` method, use `bindValue()` for each placeholder.
