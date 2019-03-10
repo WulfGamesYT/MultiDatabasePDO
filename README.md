@@ -87,11 +87,13 @@ array(3) {
 Say if we had a form and you can POST the info to your PHP file, and you want to insert 1 new record into a table from a database called "Users", all you need to do is the following. Note that this will be inserted into the second table in the example tables above because it has the lowest row count. Please [read this](#random-id-generator) on how to generate a random string for the "ID" column instead of using `AUTO INCREMENT`.
 ```php
 $insertQuery = $multiPDO->prepare("INSERT INTO Users VALUES (6, :username, :pass, :email, :firstname, :lastname)");
-$insertQuery->bindValue(":username", $_POST["username"]);
-$insertQuery->bindValue(":pass", password_hash($_POST["password"], PASSWORD_DEFAULT));
-$insertQuery->bindValue(":email", $_POST["email"]);
-$insertQuery->bindValue(":firstname", $_POST["name-first"]);
-$insertQuery->bindValue(":lastname", $_POST["name-last"]);
+$insertQuery->bindValues([
+    ":username" => $_POST["username"],
+    ":pass" => password_hash($_POST["password"], PASSWORD_DEFAULT),
+    ":email" => $_POST["email"],
+    ":firstname" => $_POST["name-first"],
+    ":lastname" => $_POST["name-last"]
+]);
 $insertQuery->execute(true, "Users");
 ```
 
@@ -101,8 +103,7 @@ Notice that with the `execute()` method we pased in 2 parameters, this is requir
 This is basically the same as doing a SELECT query, this will update ALL tables in ALL databases that match the WHERE clause if specified, for example:
 ```php
 $updateQuery = $multiPDO->prepare("UPDATE Users SET Username = :newusername WHERE Username = :oldusername");
-$updateQuery->bindValue(":newusername", "MyFancyUsername");
-$updateQuery->bindValue(":oldusername", "WulfGamesYT");
+$updateQuery->bindValues([":newusername" => "MyFancyUsername", ":oldusername" => "WulfGamesYT"]);
 $updateQuery->execute();
 ```
 
@@ -129,7 +130,7 @@ This is how you order number columns:
 $selectQuery = $multiPDO->prepare("SELECT * FROM Users");
 $selectQuery->execute();
 
-//Now sort by the "ID" column with data type: int(11) in descending order.
+//Now sort by the "ID" column in descending order.
 $selectQuery->sortBy("ID", "DESC");
 
 while($row = $selectQuery->getNextRow()) { var_dump($row); }
@@ -140,7 +141,7 @@ This is how you order string/object columns:
 $selectQuery = $multiPDO->prepare("SELECT * FROM Users");
 $selectQuery->execute();
 
-//Now sort by the ID column with data type: int(11) in descending order.
+//Now sort by the "Username" column in ascending order.
 $selectQuery->sortBy("Username", "ASC");
 
 while($row = $selectQuery->getNextRow()) { var_dump($row); }
@@ -167,12 +168,14 @@ $randomID = $multiPDO->generateRandomID("ID", "Users");
 
 $longSQL = "INSERT INTO Users VALUES (:id, :username, :pass, :email, :firstname, :lastname)";
 $insertQuery = $multiPDO->prepare($longSQL);
-$insertQuery->bindValue(":id", $randomID);
-$insertQuery->bindValue(":username", $_POST["username"]);
-$insertQuery->bindValue(":pass", password_hash($_POST["password"], PASSWORD_DEFAULT));
-$insertQuery->bindValue(":email", $_POST["email"]);
-$insertQuery->bindValue(":firstname", $_POST["name-first"]);
-$insertQuery->bindValue(":lastname", $_POST["name-last"]);
+$insertQuery->bindValues([
+    ":id" => $randomID,
+    ":username" => $_POST["username"],
+    ":pass" => password_hash($_POST["password"], PASSWORD_DEFAULT),
+    ":email" => $_POST["email"],
+    ":firstname" => $_POST["name-first"],
+    ":lastname" => $_POST["name-last"]
+]);
 $insertQuery->execute(true, "Users");
 ```
 
