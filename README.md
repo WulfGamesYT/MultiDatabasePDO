@@ -86,7 +86,8 @@ array(3) {
 ## Example Query #2: INSERT
 Say if we had a form and you can POST the info to your PHP file, and you want to insert 1 new record into a table from a database called "Users", all you need to do is the following. Note that this will be inserted into the second table in the example tables above because it has the lowest row count. Please [read this](#random-id-generator) on how to generate a random string for the "ID" column instead of using `AUTO INCREMENT`.
 ```php
-$insertQuery = $multiPDO->prepare("INSERT INTO Users VALUES (6, :username, :pass, :email, :firstname, :lastname)");
+$longSQL = "INSERT INTO Users VALUES (6, :username, :pass, :email, :firstname, :lastname)";
+$insertQuery = $multiPDO->prepare($longSQL);
 $insertQuery->bindValues([
     ":username" => $_POST["username"],
     ":pass" => password_hash($_POST["password"], PASSWORD_DEFAULT),
