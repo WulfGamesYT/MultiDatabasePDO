@@ -7,9 +7,11 @@ This is a **free**, **easy to use**, **lightweight** and **powerful** PHP librar
 
 ## Features
 ✔ Connect to multiple MySQL databases using PDO, without having performance issues!<br>
-✔ Get rows from multiple databases from the same named table.<br>
+✔ Retrieve rows from multiple databases from tables named the same.<br>
 ✔ Perform insert queries efficiently by only doing 1 query instead of adding into all databases/tables.<br>
-✔ Free to use, and it's really easy too, which is great!
+✔ Free to use, and it's really easy too, which is great!<br>
+✔ Easily sort, limit and manage results/rows.<br>
+✔ Never have to worry about scaling, just add more MySQL databases and you'll be fine!
 
 ## Requirements
 &#10132; PHP 7+ & Apache/Nginx (uses features for PHP 7 and above).<br>
