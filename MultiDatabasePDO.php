@@ -4,7 +4,7 @@
         /**
          * ----------------------------------------------------------------------------------------------
          * 
-         *     You are using MultiDatabasePDO v1.0.2 - Copyright Liam Allen (WulfGamesYT), All Rights Reserved.
+         *     You are using MultiDatabasePDO v1.0.3 - Copyright Liam Allen (WulfGamesYT), All Rights Reserved.
          *     Licence terms: https://github.com/WulfGamesYT/MultiDatabasePDO#licence
          * 
          * ----------------------------------------------------------------------------------------------
@@ -39,30 +39,15 @@
             }
             
             //Set all the default attributes.
-            $this->addPDOAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_SILENT);
-            $this->addPDOAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
-            $this->addPDOAttribute(PDO::ATTR_EMULATE_PREPARES, false);
+            $this->addPDOAttributes([
+                PDO::ATTR_ERRMODE => PDO::ERRMODE_SILENT,
+                PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+                PDO::ATTR_EMULATE_PREPARES => false,
+                PDO::ATTR_TIMEOUT => 3
+            ]);
             error_reporting($errorLoggingLevel);
         }
-        
-        /**
-         * @method Prepare a SQL command to then bind values to, returns a multi statement object.
-        **/
-        public function prepare(string $query) : MultiDatabasePDOStatement {
-            $multiStatement = new MultiDatabasePDOStatement($this->pdoDatabases, $query);
-            $this->multiStatements[] = $multiStatement;
-            return $multiStatement;
-        }
-        
-        /**
-         * @method Set a single PDO Attribute to all connections.
-        **/
-        public function addPDOAttribute(int $attribute, $value) {
-            foreach($this->pdoDatabases as $pdo) {
-                $pdo->setAttribute($attribute, $value);
-            }
-        }
-        
+
         /**
          * @method Checks if there were any errors connecting to the database(s).
         **/
@@ -75,6 +60,33 @@
         **/
         public function getFailedConnections() : string {
             return join(" / ", $this->failedConnections);
+        }
+
+        /**
+         * @method Prepare a SQL command to then bind values to, returns a multi statement object.
+        **/
+        public function prepare(string $query) : MultiDatabasePDOStatement {
+            $multiStatement = new MultiDatabasePDOStatement($this->pdoDatabases, $query);
+            $this->multiStatements[] = $multiStatement;
+            return $multiStatement;
+        }
+        
+        /**
+         * @method Set a single PDO attribute to all connections.
+        **/
+        public function addPDOAttribute(int $attribute, $value) {
+            foreach($this->pdoDatabases as $pdo) {
+                $pdo->setAttribute($attribute, $value);
+            }
+        }
+
+        /**
+         * @method Add multiple PDO attributes to all connections.
+        **/
+        public function addPDOAttributes(array $items) {
+            foreach($items as $attribute => $value) {
+                $this->addPDOAttribute($attribute, $value);
+            }
         }
 
         /**
@@ -136,9 +148,18 @@
         /**
          * @method Bind a value to each prepared statement.
         **/
-        public function bindValue(string $nameOrNumber, $value) {
+        public function bindValue($nameOrNumber, $value) {
             foreach($this->preparedStatements as $statement) {
                 $statement->bindValue($nameOrNumber, $value);
+            }
+        }
+
+        /**
+         * @method Bind multiple values to each prepared statement.
+        **/
+        public function bindValues(array $items) {
+            foreach($items as $nameOrNumber => $value) {
+                $this->bindValue($nameOrNumber, $value);
             }
         }
 
@@ -207,7 +228,7 @@
         **/
         public function limitTo(int $limit, int $offset = 0) {
             if(count($this->returnedRows) > $limit) {
-                $this->returnedRows = array_slice($this->returnedRows, $offset, $limit);
+                $this->returnedRows = array_slice($this->returnedRows, $offset, $limit === -1 ? PHP_INT_MAX : $limit);
             } else {
                 $this->returnedRows = [];
             }
