@@ -43,8 +43,7 @@ if($multiPDO->hasAnyErrors()) {
 ```
 
 Next, I would recommend [reading the documentation on the wiki](https://github.com/WulfGamesYT/MultiDatabasePDO/wiki) to understand what each function does. Also, it's important to know that there are some differences between this library and the standard PDO library, notably:
-* You can't pass in an array of placeholders/values in the `execute()` method, use `bindValue()` for each placeholder.
-* You can't bind PHP variables directly, use `bindValue()` method for assigning values to each placeholder.
+* You can't pass in an array of placeholders/values in the `execute()` method, use `bindValue()` or `bindValues()`.
 * You can't use `ORDER BY`, `LIMIT` or `OFFSET` in your SQL queries, instead please [see this guide](#organising-results).
 * Avoid using `AUTO INCREMENT` for columns, instead if you have an ID column [make use of this function here](#random-id-generator).
 
