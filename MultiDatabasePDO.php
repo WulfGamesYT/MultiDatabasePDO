@@ -4,7 +4,7 @@
         /**
          * ----------------------------------------------------------------------------------------------
          * 
-         *     You are using MultiDatabasePDO v1.0.3 - Copyright Liam Allen (WulfGamesYT), All Rights Reserved.
+         *     You are using MultiDatabasePDO v1.0.4 - Copyright Liam Allen (WulfGamesYT), All Rights Reserved.
          *     Licence terms: https://github.com/WulfGamesYT/MultiDatabasePDO#licence
          * 
          * ----------------------------------------------------------------------------------------------
@@ -30,8 +30,7 @@
                 $dsn = $paramList[0] . ":host=" . $paramList[1] . ";dbname=" . $paramList[2] . ";charset=utf8mb4";
 
                 try {
-                    $pdoConnection = new PDO($dsn, $paramList[3], $paramList[4]);
-                    $this->pdoDatabases[] = $pdoConnection;
+                    $this->pdoDatabases[] = new PDO($dsn, $paramList[3], $paramList[4]);
                 } catch(Exception $f) {
                     $this->hasAnError = true;
                     $this->failedConnections[] = $dsn;
@@ -98,10 +97,7 @@
                 "result" => ""
             ];
 
-            for($i = 0; $i < $length; $i++) {
-                $uniqueStringOptions["result"] .= $uniqueStringOptions["chars"][rand(0, strlen($uniqueStringOptions["chars"]) - 1)];
-            }
-
+            for($i = 0; $i < $length; $i++) { $uniqueStringOptions["result"] .= $uniqueStringOptions["chars"][rand(0, strlen($uniqueStringOptions["chars"]) - 1)]; }
             $checkUniqueString = $this->prepare("SELECT * FROM `$table` WHERE `$column` = :multipdoidstring");
             $checkUniqueString->bindValue(":multipdoidstring", $uniqueStringOptions["result"]);
             $checkUniqueString->execute();
@@ -139,10 +135,7 @@
         **/
         public function __construct(array $pdoDatabases, string $query) {
             $this->originalPDODatabases = $pdoDatabases;
-            foreach($pdoDatabases as $pdo) {
-                $statement = $pdo->prepare($query);
-                $this->preparedStatements[] = $statement;
-            }
+            foreach($pdoDatabases as $pdo) { $this->preparedStatements[] = $pdo->prepare($query); }
         }
 
         /**
@@ -186,11 +179,13 @@
                 $pdoDatabaseCount = count($this->originalPDODatabases);
                 for($i = 0; $i < $pdoDatabaseCount; $i++) {
                     $pdo = $this->originalPDODatabases[$i];
-                    $check = $pdo->prepare("SELECT * FROM `$table`");
+                    $check = $pdo->prepare("SELECT COUNT(*) FROM `$table`");
                     $check->execute();
-                    if($check->rowCount() < $lowestTableRowCount) {
+
+                    $amountOfRows = intval($check->fetch(PDO::FETCH_ASSOC, PDO::FETCH_ORI_NEXT)["COUNT(*)"]);
+                    if($amountOfRows < $lowestTableRowCount) {
                         $lowestTableRowCountDatabase = $i;
-                        $lowestTableRowCount = $check->rowCount();
+                        $lowestTableRowCount = $amountOfRows;
                     }
                 }
 
