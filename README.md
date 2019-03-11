@@ -30,7 +30,7 @@ How it works:<br>
 &#10132; You don't change the comment in the file or remove it, doing so will make me think you want to claim it as your own.
 
 ## Getting Started
-Before you start please make sure you understand [the basics of PDO](https://secure.php.net/manual/en/book.pdo.php). Simply download the latest version of [MultiDatabasePDO](https://github.com/WulfGamesYT/MultiDatabasePDO/raw/master/MultiDatabasePDO.php) and include it in your autoload php file (or header inc file on every page). Once done, you can connect to all your databases by doing:
+Before you start please make sure you understand [the basics of PDO](https://secure.php.net/manual/en/book.pdo.php). Simply download the [latest version](https://github.com/WulfGamesYT/MultiDatabasePDO/raw/master/MultiDatabasePDO.php) and include it in your autoload php file (or header inc file on every page). Once done, you can connect to all your databases by doing:
 ```php
 $multiPDO = new MultiDatabasePDO([
     ["mysql", "1.1.1.1", "database_1", "username", "password"],
