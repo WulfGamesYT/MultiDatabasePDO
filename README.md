@@ -3,7 +3,11 @@
 [![Current Version](https://dabuttonfactory.com/button.png?f=Open+Sans&ts=16&tc=666&hp=24&vp=12&c=round&bgt=unicolored&bgc=eee&bs=1&bc=ccc&t=Latest+Version%3A+v1.0.4)](https://github.com/WulfGamesYT/MultiDatabasePDO/raw/master/MultiDatabasePDO.php)
 
 # MultiDatabasePDO
-This is a **free**, **easy to use**, **lightweight** and **powerful** PHP library that allows you to connect to multiple MySQL databases through PDO. I've always wondered why MySQL doesn't have built in horizontal scaling thats simple for everyone. I've come up with a solution, just have multiple databases with the same table names and columns, and this library will allow you to scale, have as many databases as you want! Before you start please make sure you understand [the basics of PDO](https://secure.php.net/manual/en/book.pdo.php).
+This is a **free**, **easy to use**, **lightweight** and **powerful** PHP library that allows you to connect to multiple MySQL databases through PDO. Here is a database scaling solution without the need for replication (slaves and masters).
+
+How it works:
+* Just have multiple databases with the same table names and columns.
+* Scale easily by creating new databases, even on different servers.
 
 **NOTE:** I've built this specifically for MySQL but I believe this will work with PostgreSQL, MariaDB, CouchDB etc. Remember, this is for SQL databases so it won't work with database management systems like MongoDB and Apache Cassandra.
 
@@ -26,7 +30,7 @@ This is a **free**, **easy to use**, **lightweight** and **powerful** PHP librar
 &#10132; You don't change the comment in the file or remove it, doing so will make me think you want to claim it as your own.
 
 ## Getting Started
-Simply download the latest version of [MultiDatabasePDO](https://github.com/WulfGamesYT/MultiDatabasePDO/raw/master/MultiDatabasePDO.php) and include it in your autoload php file (or header inc file on every page). Once done, you can connect to all your databases by doing:
+Before you start please make sure you understand [the basics of PDO](https://secure.php.net/manual/en/book.pdo.php). Simply download the latest version of [MultiDatabasePDO](https://github.com/WulfGamesYT/MultiDatabasePDO/raw/master/MultiDatabasePDO.php) and include it in your autoload php file (or header inc file on every page). Once done, you can connect to all your databases by doing:
 ```php
 $multiPDO = new MultiDatabasePDO([
     ["mysql", "1.1.1.1", "database_1", "username", "password"],
