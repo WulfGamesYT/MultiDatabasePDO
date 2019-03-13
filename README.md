@@ -48,7 +48,7 @@ Next, I would recommend [reading the documentation on the wiki](https://github.c
 * Avoid using `AUTO INCREMENT` for columns, instead if you have an ID column [make use of this function here](#random-id-generator).
 
 ## The Example Tables
-For example purposes, imagine we have the following tables, both called "Users". Each example in this README below will be using these tables and their values/columns. **NOTE:** You have to use the same columns for every table in all your databases.<br>
+For example purposes, imagine we have the following tables, both called "Users". Each example in this README below will be using these tables and their values/columns. **NOTE:** You have to use the same columns for every table in all your databases. **EXTRA:** If you want to test this library with 2 massive tables, each with 1.25M rows each then feel free to [download the ZIP folder here](http://bit.ly/2O3v9RN).<br>
 
 **"Users" table, from database 1.**<br>
 
