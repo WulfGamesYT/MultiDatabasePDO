@@ -18,6 +18,7 @@ How it works:<br>
 ✔ Free to use, and it's really easy too, which is great!<br>
 ✔ Easily sort, limit and manage results/rows.<br>
 ✔ Never have to worry about scaling, just add more MySQL databases and you'll be fine!
+✔ Select and organise millions and billions of rows of data from multiple databases (currently I'm trying my best to make this as lightweight as possible to make sure it doesn't affect performance, and I'll be able to see soon if this will work instead of replication).
 
 ## Requirements
 &#10132; PHP 7+ & Apache/Nginx (uses features for PHP 7 and above).<br>
@@ -168,7 +169,7 @@ while($row = $selectQuery->getNextRow()) { var_dump($row); }
 ```
 
 ## Random ID Generator
-Instead of `AUTO INCREMENT`, or if you need a way of generating unique strings in your tables for a column, you can make use of a function called `generateRandomID()`. Here is an example of how to use it when inserting new rows into your tables:
+Instead of `AUTO INCREMENT`, or if you need a way of generating unique strings in your tables for a column, you can make use of a function called `generateRandomID()`. You can always generate a UUID or GUID via PHP, it's up to you! Here is an example of how to use this function when inserting new rows into your tables:
 ```php
 //Here we generate a truly random string for the "ID" column in the "Users" table.
 //Optionally we can pass in a length for the random string as the 3rd parameter, default length is 48.
