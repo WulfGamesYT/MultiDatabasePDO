@@ -3,7 +3,7 @@
 [![Current Version](https://dabuttonfactory.com/button.png?f=Open+Sans&ts=16&tc=666&hp=24&vp=12&c=round&bgt=unicolored&bgc=eee&bs=1&bc=ccc&t=Download+Latest+Version)](https://github.com/WulfGamesYT/MultiDatabasePDO/releases)
 
 # MultiDatabasePDO
-This is a **free**, **easy to use**, **lightweight** and **powerful** PHP library that allows you to connect to multiple MySQL databases through PDO. Here is a database scaling solution without the need for replication (slaves and masters). I've built this specifically for MySQL but I believe this will work with PostgreSQL, MariaDB, CouchDB etc. Remember, this is for SQL databases so it won't work with database management systems like MongoDB and Apache Cassandra.
+This is a **free**, **easy to use**, **lightweight** and **powerful** PHP library that allows you to connect to multiple MySQL databases with PDO. I've built this specifically for MySQL but I believe this will work with PostgreSQL, MariaDB, CouchDB etc. Remember, this is for SQL databases so it won't work with database management systems like MongoDB and Apache Cassandra.
 
 ## Features
 ✔ Connect to multiple MySQL databases using PDO, without having performance issues!<br>
