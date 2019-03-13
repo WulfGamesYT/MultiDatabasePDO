@@ -2,7 +2,7 @@
     /**
      * ----------------------------------------------------------------------------------------------
      * 
-     *     You are using MultiDatabasePDO v1.0.5 - Copyright Liam Allen (WulfGamesYT), All Rights Reserved.
+     *     You are using MultiDatabasePDO v1.0.6 - Copyright Liam Allen (WulfGamesYT), All Rights Reserved.
      *     Licence terms: https://github.com/WulfGamesYT/MultiDatabasePDO#licence
      * 
      * ----------------------------------------------------------------------------------------------
@@ -15,12 +15,8 @@
 
     class MultiDatabasePDO {
         
-        //Were there any errors connecting initially?
-        private $hasAnError = false;
         private $failedConnections = [];
-        
-        //All the PDO and multi statement instances.
-        private $pdoDatabases = [];
+        private $pdoDatabases = ["instances" => [], "names" => []];
         private $multiStatements = [];
         
         /**
@@ -35,9 +31,9 @@
                 $dsn = $paramList[0] . ":host=" . $paramList[1] . ";dbname=" . $paramList[2] . ";charset=utf8mb4";
 
                 try {
-                    $this->pdoDatabases[] = new PDO($dsn, $paramList[3], $paramList[4]);
+                    $this->pdoDatabases["instances"][] = new PDO($dsn, $paramList[3], $paramList[4]);
+                    $this->pdoDatabases["names"][] = $paramList[2];
                 } catch(Exception $f) {
-                    $this->hasAnError = true;
                     $this->failedConnections[] = $dsn;
                 }
             }
@@ -56,7 +52,7 @@
          * @method Checks if there were any errors connecting to the database(s).
         **/
         public function hasAnyErrors() : bool {
-            return $this->hasAnError;
+            return count($this->failedConnections) > 0;
         }
         
         /**
@@ -79,7 +75,7 @@
          * @method Set a single PDO attribute to all connections.
         **/
         public function addPDOAttribute(int $attribute, $value) {
-            foreach($this->pdoDatabases as $pdo) {
+            foreach($this->pdoDatabases["instances"] as $pdo) {
                 $pdo->setAttribute($attribute, $value);
             }
         }
@@ -103,8 +99,8 @@
             ];
 
             for($i = 0; $i < $length; $i++) { $uniqueStringOptions["result"] .= $uniqueStringOptions["chars"][rand(0, strlen($uniqueStringOptions["chars"]) - 1)]; }
-            $checkUniqueString = $this->prepare("SELECT * FROM `$table` WHERE `$column` = :multipdoidstring");
-            $checkUniqueString->bindValue(":multipdoidstring", $uniqueStringOptions["result"]);
+            $checkUniqueString = $this->prepare("SELECT * FROM `$table` WHERE `$column` = :randstring");
+            $checkUniqueString->bindValue(":randstring", $uniqueStringOptions["result"]);
             $checkUniqueString->execute();
             return $checkUniqueString->rowCount() === 0 ? $uniqueStringOptions["result"] : $this->generateRandomID($column, $table, $length);
         }
@@ -114,13 +110,12 @@
          * Once called, all connections are reset ready for the class to be unloaded.
         **/
         public function finishAndClose() {
-            foreach($this->pdoDatabases as &$pdo) { $pdo = null; }
+            foreach($this->pdoDatabases as &$item) { $item = null; }
             foreach($this->multiStatements as &$multiStatement) { $multiStatement = null; }
-            $this->pdoDatabases = [];
+            $this->pdoDatabases = ["instances" => [], "names" => []];
             $this->multiStatements = [];
             $this->latestPreparedStatements = [];
             $this->latestReturnedRows = [];
-            $this->hasAnError = false;
             $this->failedConnections = [];
         }
         
