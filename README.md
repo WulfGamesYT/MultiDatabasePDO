@@ -3,13 +3,7 @@
 [![Current Version](https://dabuttonfactory.com/button.png?f=Open+Sans&ts=16&tc=666&hp=24&vp=12&c=round&bgt=unicolored&bgc=eee&bs=1&bc=ccc&t=Download+Latest+Version)](https://github.com/WulfGamesYT/MultiDatabasePDO/releases)
 
 # MultiDatabasePDO
-This is a **free**, **easy to use**, **lightweight** and **powerful** PHP library that allows you to connect to multiple MySQL databases through PDO. Here is a database scaling solution without the need for replication (slaves and masters).
-
-How it works:<br>
-&#10132; Just have multiple databases with the same table names and columns.<br>
-&#10132; Scale easily by creating new databases, even on different servers.<br>
-
-**NOTE:** I've built this specifically for MySQL but I believe this will work with PostgreSQL, MariaDB, CouchDB etc. Remember, this is for SQL databases so it won't work with database management systems like MongoDB and Apache Cassandra.
+This is a **free**, **easy to use**, **lightweight** and **powerful** PHP library that allows you to connect to multiple MySQL databases through PDO. Here is a database scaling solution without the need for replication (slaves and masters). I've built this specifically for MySQL but I believe this will work with PostgreSQL, MariaDB, CouchDB etc. Remember, this is for SQL databases so it won't work with database management systems like MongoDB and Apache Cassandra.
 
 ## Features
 ✔ Connect to multiple MySQL databases using PDO, without having performance issues!<br>
@@ -54,7 +48,7 @@ Next, I would recommend [reading the documentation on the wiki](https://github.c
 * Avoid using `AUTO INCREMENT` for columns, instead if you have an ID column [make use of this function here](#random-id-generator).
 
 ## The Example Tables
-For example purposes, imagine we have the following tables, both called "Users". Each example in this README below will be using these tables and their values/columns. **NOTE:** You have to use the same columns for every table in all your databases, and in a real life scenario the only reason you would need this library is if your main table has millions or billions of rows.<br>
+For example purposes, imagine we have the following tables, both called "Users". Each example in this README below will be using these tables and their values/columns. **NOTE:** You have to use the same columns for every table in all your databases.<br>
 
 **"Users" table, from database 1.**<br>
 
