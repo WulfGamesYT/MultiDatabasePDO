@@ -31,15 +31,16 @@ How it works:<br>
 &#10132; You don't change the comment in the file or remove it, doing so will make me think you want to claim it as your own.
 
 ## Getting Started
-Before you start please make sure you understand [the basics of PDO](https://secure.php.net/manual/en/book.pdo.php). Simply download the [latest version](https://github.com/WulfGamesYT/MultiDatabasePDO/raw/master/MultiDatabasePDO.php) and include it in your autoload php file (or header inc file on every page). Once done, you can connect to all your databases by doing:
+Before you start please make sure you understand [the basics of PDO](https://secure.php.net/manual/en/book.pdo.php). Simply download the latest release and include the file named `MultiDatabasePDO.php` which will automatically include all the extra classes for you. Your setup code should look like this:
 ```php
+require "./MultiDatabasePDO/MultiDatabasePDO.php";
 $multiPDO = new \WulfGamesYT\MultiDatabasePDO\MultiDatabasePDO([
     ["mysql", "1.1.1.1", "database_1", "username", "password"],
     ["mysql", "2.2.2.2", "database_2", "username", "password"]
 ]);
 ```
 
-Now we need to check for any errors using a simple function called `hasAnyErrors()`! You can get the failed connections by calling the function `getFailedConnections()`.
+Now we need to check for any errors using a simple function called `hasAnyErrors()`. You can list connections which fail with the function `getFailedConnections()`.
 ```php
 if($multiPDO->hasAnyErrors()) {
     error_log("Error connecting to database(s): " . $multiPDO->getFailedConnections());
