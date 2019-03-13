@@ -25,7 +25,7 @@ This is a **free**, **easy to use**, **lightweight** and **powerful** PHP librar
 &#10132; You don't change the comment in the file or remove it, doing so will make me think you want to claim it as your own.
 
 ## Getting Started
-Before you start please make sure you understand [the basics of PDO](https://secure.php.net/manual/en/book.pdo.php). Simply download the latest release and include the file named `MultiDatabasePDO.php` which will automatically include all the extra classes for you. Your setup code should look like this:
+Before you start please make sure you understand [the basics of PDO](https://secure.php.net/manual/en/book.pdo.php). Simply download the latest release and include the file named `MultiDatabasePDO.php` which will automatically include all the extra classes for you. Your setup code should look like:
 ```php
 require "./MultiDatabasePDO/MultiDatabasePDO.php";
 $multiPDO = new \WulfGamesYT\MultiDatabasePDO\MultiDatabasePDO([
@@ -48,7 +48,9 @@ Next, I would recommend [reading the documentation on the wiki](https://github.c
 * Avoid using `AUTO INCREMENT` for columns, instead if you have an ID column [make use of this function here](#random-id-generator).
 
 ## The Example Tables
-For example purposes, imagine we have the following tables, both called "Users". Each example in this README below will be using these tables and their values/columns. **NOTE:** You have to use the same columns for every table in all your databases. **EXTRA:** If you want to test this library with 2 massive tables, each with 1.25M rows each then feel free to [download the ZIP folder here](http://bit.ly/2O3v9RN).<br>
+For example purposes, imagine we have the following tables, both called "Users". Each example in this README below will be using these tables and their values/columns. **NOTE:** You have to use the same columns for every table in all your databases.
+
+**MASSIVE EXAMPLE TABLES:** If you want to test this library with 2 massive tables, each with 1.25M rows then feel free to [download the ZIP folder here](http://bit.ly/2O3v9RN).<br>
 
 **"Users" table, from database 1.**<br>
 
