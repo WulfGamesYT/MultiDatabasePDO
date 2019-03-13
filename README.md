@@ -17,8 +17,8 @@ How it works:<br>
 ✔ Perform insert queries efficiently by only doing 1 query instead of adding into all databases/tables.<br>
 ✔ Free to use, and it's really easy too, which is great!<br>
 ✔ Easily sort, limit and manage results/rows.<br>
-✔ Never have to worry about scaling, just add more MySQL databases and you'll be fine!
-✔ Select and organise millions and billions of rows of data from multiple databases (currently I'm trying my best to make this as lightweight as possible to make sure it doesn't affect performance, and I'll be able to see soon if this will work instead of replication).
+✔ Never have to worry about scaling, just add more MySQL databases and you'll be fine!<br>
+✔ Select and organise millions and billions of rows of data from multiple databases **(currently I'm trying my best to make this as lightweight as possible to make sure it doesn't affect performance, and I'll be able to see soon if this will work instead of replication)**.
 
 ## Requirements
 &#10132; PHP 7+ & Apache/Nginx (uses features for PHP 7 and above).<br>
