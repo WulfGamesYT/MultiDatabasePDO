@@ -24,7 +24,7 @@
         **/
         public function __construct(array $connectionParamsList) {
             $errorLoggingLevel = error_reporting();
-            //error_reporting(0);
+            error_reporting(0);
 
             //Loop through each connection init array.
             foreach($connectionParamsList as $paramList) {
