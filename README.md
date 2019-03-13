@@ -33,7 +33,7 @@ How it works:<br>
 ## Getting Started
 Before you start please make sure you understand [the basics of PDO](https://secure.php.net/manual/en/book.pdo.php). Simply download the [latest version](https://github.com/WulfGamesYT/MultiDatabasePDO/raw/master/MultiDatabasePDO.php) and include it in your autoload php file (or header inc file on every page). Once done, you can connect to all your databases by doing:
 ```php
-$multiPDO = new MultiDatabasePDO([
+$multiPDO = new \WulfGamesYT\MultiDatabasePDO\MultiDatabasePDO([
     ["mysql", "1.1.1.1", "database_1", "username", "password"],
     ["mysql", "2.2.2.2", "database_2", "username", "password"]
 ]);
