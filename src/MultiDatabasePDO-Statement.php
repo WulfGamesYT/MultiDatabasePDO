@@ -16,7 +16,9 @@
         **/
         public function __construct(array $pdoDatabases, string $query) {
             $this->originalPDODatabases = $pdoDatabases;
-            foreach($pdoDatabases as $pdo) { $this->preparedStatements[] = $pdo->prepare($query); }
+            foreach($pdoDatabases["instances"] as $pdo) {
+                $this->preparedStatements[] = $pdo->prepare($query);
+            }
         }
 
         /**
@@ -72,11 +74,18 @@
 
                 $statementToExecute = $this->preparedStatements[$lowestTableRowCountDatabase];
                 $statementToExecute->execute();
-                while($row = $statementToExecute->fetch(PDO::FETCH_ASSOC, PDO::FETCH_ORI_NEXT)) { $this->returnedRows[] = $row; }
+                return [];
             } else {
-                foreach($this->preparedStatements as $statement) {
+                $preparedStatementsSize = count($this->preparedStatements);
+                for($i = 0; $i < $preparedStatementsSize; $i++) {
+                    $statement = $this->preparedStatements[$i];
                     $statement->execute();
-                    while($row = $statement->fetch(PDO::FETCH_ASSOC, PDO::FETCH_ORI_NEXT)) { $this->returnedRows[] = $row; }
+                    while($row = $statement->fetch(PDO::FETCH_ASSOC, PDO::FETCH_ORI_NEXT)) {
+                        $this->returnedRows[] = ["MultiDatabasePDO-RowInfo" => [
+                            "DatabaseFetchedFrom" => ($this->originalPDODatabases["names"][$i]),
+                            "ColumnCount" => (count($row))
+                        ]] + $row;
+                    }
                 }
             }
 
@@ -118,13 +127,12 @@
                 if(count($this->returnedRows) > 0) {
                     $columnDataType = gettype($this->returnedRows[0][$column]);
                     
-                    //Sort whole numbers and doubles/floats.
+                    //Sort integers, doubles & floats. Else sort strings, objects etc.
                     if($columnDataType === "integer" || $columnDataType === "double") {
                         usort($this->returnedRows, function($a, $b) use ($column, $direction) {
                             return $direction === "ASC" ? ($a[$column] > $b[$column]) : ($a[$column] < $b[$column]);
                         });
                     } else {
-                        //Sort strings, objects, null etc.
                         $rowSize = count($this->returnedRows);
                         for($i = 0; $i < $rowSize; $i++) {
                             $this->returnedRows[$i][$column] = strval($this->returnedRows[$i][$column]);
