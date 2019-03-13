@@ -76,18 +76,6 @@ $selectQuery->execute();
 while($row = $selectQuery->getNextRow()) { var_dump($row); }
 ```
 
-That will produce some example output like:
-```
-array(3) {
-  ["ID"]=>
-  int(1)
-  ["Username"]=>
-  string(11) "WulfGamesYT"
-  ["Email"]=>
-  string(16) "wulf@example.com"
-}
-```
-
 ## Example Query #2: INSERT
 Say if we had a form and you can POST the info to your PHP file, and you want to insert 1 new record into a table from a database called "Users", all you need to do is the following. Note that this will be inserted into the second table in the example tables above because it has the lowest row count. Please [read this](#random-id-generator) on how to generate a random string for the "ID" column instead of using `AUTO INCREMENT`.
 ```php
