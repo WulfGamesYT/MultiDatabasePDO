@@ -1,3 +1,5 @@
+**Currently, v1.0.6 is broken - I have detected a bug that breaks INSERT queries - I'm fixing this and will release v1.0.7 shortly!**
+
 [![MySQL & PHP](https://codegeekz.com/wp-content/uploads/php-mysql-logo-large.gif)](https://github.com/WulfGamesYT/MultiDatabasePDO)
 <br><br>
 [![Current Version](https://dabuttonfactory.com/button.png?f=Open+Sans&ts=16&tc=666&hp=24&vp=12&c=round&bgt=unicolored&bgc=eee&bs=1&bc=ccc&t=Download+Latest+Version)](https://github.com/WulfGamesYT/MultiDatabasePDO/releases)
