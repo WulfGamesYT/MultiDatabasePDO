@@ -6,13 +6,12 @@
 This is a **free**, **easy to use**, **lightweight** and **powerful** PHP library that allows you to connect to multiple MySQL databases with PDO. I've built this specifically for MySQL but I believe this will work with PostgreSQL, MariaDB, CouchDB etc. Remember, this is for SQL databases so it won't work with database management systems like MongoDB and Apache Cassandra.
 
 ## Features
-✔ Connect to multiple MySQL databases using PDO, without having performance issues!<br>
-✔ Retrieve rows from multiple databases from tables named the same.<br>
-✔ Perform insert queries efficiently by only doing 1 query instead of adding into all databases/tables.<br>
-✔ Free to use, and it's really easy too, which is great!<br>
+✔ Connect to multiple MySQL databases using PDO.<br>
+✔ Retrieve rows from multiple databases.<br>
+✔ Perform insert queries efficiently by doing only 1 query instead of adding new rows in all tables in every database.<br>
 ✔ Easily sort, limit and manage results/rows.<br>
-✔ Never have to worry about scaling, just add more MySQL databases and you'll be fine!<br>
-✔ Select and organise millions and billions of rows of data from multiple databases **(currently I'm trying my best to make this as lightweight as possible to make sure it doesn't affect performance, and I'll be able to see soon if this will work instead of replication)**.
+✔ Scale easily, simply by adding more databases (no need to use slaves, masters or clusters).<br>
+✔ Generate truly unique identifiers (called MDGUID's).
 
 ## Requirements
 &#10132; PHP 7+ & Apache/Nginx (uses features for PHP 7 and above).<br>
@@ -153,17 +152,26 @@ $selectQuery->sortBy("FirstName", "ASC");
 while($row = $selectQuery->getNextRow()) { var_dump($row); }
 ```
 
-## Random ID Generator
-Instead of `AUTO INCREMENT`, or if you need a way of generating unique strings in your tables for a column, you can make use of a function called `generateRandomID()`. You can always generate a UUID or GUID via PHP, it's up to you! Here is an example of how to use this function when inserting new rows into your tables:
+## MDGUID Generator
+Instead of `AUTO INCREMENT`, or if you need a way of generating truly unique GUID's across multiple databases you can make use of our function called `generateMDGUID()`. Below is a guide on how they work and how they guarentee 100% uniqueness, and an example of how to use the function when inserting new rows into your tables.
+
+**How MDGUID's work and guarentee uniqueness:**
+1. MultiDatabasePDO generates a UUID v4, prefixed by an MD5 of the current timestamp, forming an MDGUID.
+2. MultiDatabasePDO then inserts the MDGUID into a MDGUID queue table in the first database you have connected.
+3. MultiDatabasePDO assigns a UNIQUE column in the queue table and tries repeatedly to insert the new MDGUID.
+4. If the MDGUID is inserted successfully it means it's truly unique.
+5. You can then insert a new row when you receive the MDGUID as a string.
+
+**Example:**
 ```php
 //Here we generate a truly random string for the "ID" column in the "Users" table.
 //Optionally we can pass in a length for the random string as the 3rd parameter, default length is 48.
-$randomID = $multiPDO->generateRandomID("ID", "Users");
+$mdguid = $multiPDO->generateMDGUID();
 
-$longSQL = "INSERT INTO Users VALUES (:id, :username, :pass, :email, :firstname, :lastname)";
+$longSQL = "INSERT INTO Users VALUES (:mdguid, :username, :pass, :email, :firstname, :lastname)";
 $insertQuery = $multiPDO->prepare($longSQL);
 $insertQuery->bindValues([
-    ":id" => $randomID,
+    ":mdguid" => $mdguid,
     ":username" => $_POST["username"],
     ":pass" => password_hash($_POST["password"], PASSWORD_DEFAULT),
     ":email" => $_POST["email"],
@@ -172,12 +180,6 @@ $insertQuery->bindValues([
 ]);
 $insertQuery->execute(true, "Users");
 ```
-
-The way the `generateRandomID()` function works is that it will:
-1. Generate a random string of desired length.
-2. Perform a SELECT query on all tables to see if the random string is there in the specified column.
-3. If any rows exist with the value of the random string in the specified column go back to step 1, else continue.
-4. Return the random string.
 
 ## Have Questions? Like It?
 If you need to ask a question, reach out to me on Twitter.<br>
