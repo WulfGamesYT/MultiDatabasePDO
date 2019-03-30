@@ -44,7 +44,7 @@ if($multiPDO->hasAnyErrors()) {
 Next, I would recommend [reading the documentation on the wiki](https://github.com/WulfGamesYT/MultiDatabasePDO/wiki) to understand what each function does. Also, it's important to know that there are some differences between this library and the standard PDO library, notably:
 * You can't pass in an array of placeholders/values in the `execute()` method, use `bindValue()` or `bindValues()`.
 * You can't use `ORDER BY`, `LIMIT` or `OFFSET` in your SQL queries, instead please [see this guide](#organising-results).
-* Avoid using `AUTO INCREMENT` for columns, instead if you have an ID column [make use of this function here](#random-id-generator).
+* Avoid using `AUTO INCREMENT` for columns, instead if you have an ID column [make use of this function](#mdguid-generator).
 
 ## The Example Tables
 For example purposes, imagine we have the following tables, both called "Users". Each example in this README below will be using these tables and their values/columns. **NOTE:** You have to use the same columns for every table in all your databases.
