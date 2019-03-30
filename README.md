@@ -164,8 +164,7 @@ Instead of `AUTO INCREMENT`, or if you need a way of generating truly unique GUI
 
 **Example:**
 ```php
-//Here we generate a truly random string for the "ID" column in the "Users" table.
-//Optionally we can pass in a length for the random string as the 3rd parameter, default length is 48.
+//Here we generate the MDGUID.
 $mdguid = $multiPDO->generateMDGUID();
 
 $longSQL = "INSERT INTO Users VALUES (:mdguid, :username, :pass, :email, :firstname, :lastname)";
