@@ -41,12 +41,13 @@
 
         /**
          * @method Execute this multi statement when it's been prepared and values have been binded.
+         * Returns true if all statements were executed, if one fails then the next statements don't execute.
          * If $insertMode is true, then:
          *   - Insert query will only be run once.
          *   - Data is inserted into the table which has the least amount of rows.
          *   - You will need to provide a table name with $table variable.
         **/
-        public function execute(bool $insertMode = false, string $table = "") : array {
+        public function execute(bool $insertMode = false, string $table = "") : bool {
             $this->returnedRows = [];
 
             if($insertMode === true) {
@@ -59,13 +60,13 @@
                 $lowestTableRowCountDatabase = 0;
                 $lowestTableRowCount = PHP_INT_MAX;
 
-                $pdoDatabaseCount = count($this->originalPDODatabases);
+                $pdoDatabaseCount = count($this->originalPDODatabases["instances"]);
                 for($i = 0; $i < $pdoDatabaseCount; $i++) {
-                    $pdo = $this->originalPDODatabases[$i];
+                    $pdo = $this->originalPDODatabases["instances"][$i];
                     $check = $pdo->prepare("SELECT COUNT(*) FROM `$table`");
                     $check->execute();
 
-                    $amountOfRows = intval($check->fetch(PDO::FETCH_ASSOC, PDO::FETCH_ORI_NEXT)["COUNT(*)"]);
+                    $amountOfRows = $check->fetch(PDO::FETCH_ASSOC, PDO::FETCH_ORI_NEXT)["COUNT(*)"];
                     if($amountOfRows < $lowestTableRowCount) {
                         $lowestTableRowCountDatabase = $i;
                         $lowestTableRowCount = $amountOfRows;
@@ -73,13 +74,13 @@
                 }
 
                 $statementToExecute = $this->preparedStatements[$lowestTableRowCountDatabase];
-                $statementToExecute->execute();
-                return [];
+                return $statementToExecute->execute();
             } else {
                 $preparedStatementsSize = count($this->preparedStatements);
                 for($i = 0; $i < $preparedStatementsSize; $i++) {
                     $statement = $this->preparedStatements[$i];
-                    $statement->execute();
+                    $wasOkay = $statement->execute();
+                    if(!$wasOkay) { return false; }
                     while($row = $statement->fetch(PDO::FETCH_ASSOC, PDO::FETCH_ORI_NEXT)) {
                         $this->returnedRows[] = ["MultiDatabasePDO-RowInfo" => [
                             "DatabaseFetchedFrom" => ($this->originalPDODatabases["names"][$i]),
@@ -87,9 +88,8 @@
                         ]] + $row;
                     }
                 }
+                return true;
             }
-
-            return $this->returnedRows;
         }
 
         /**
@@ -97,6 +97,13 @@
         **/
         public function rowCount() : int {
             return count($this->returnedRows);
+        }
+
+        /**
+         * @method Fetches all the current rows.
+        **/
+        public function getAllRows() : array {
+            return $this->returnedRows;
         }
 
         /**
