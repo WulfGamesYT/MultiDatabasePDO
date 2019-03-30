@@ -2,7 +2,7 @@
     /**
      * ----------------------------------------------------------------------------------------------
      * 
-     *     You are using MultiDatabasePDO v1.0.6 - Copyright Liam Allen (WulfGamesYT), All Rights Reserved.
+     *     You are using MultiDatabasePDO v1.0.7 - Copyright Liam Allen (WulfGamesYT), All Rights Reserved.
      *     Licence terms: https://github.com/WulfGamesYT/MultiDatabasePDO#licence
      * 
      * ----------------------------------------------------------------------------------------------
@@ -18,6 +18,7 @@
         private $failedConnections = [];
         private $pdoDatabases = ["instances" => [], "names" => []];
         private $multiStatements = [];
+        private $mdguidGenList = [];
         
         /**
          * @method Here we add all the connections and create all the PDO instances.
@@ -25,6 +26,11 @@
         public function __construct(array $connectionParamsList) {
             $errorLoggingLevel = error_reporting();
             error_reporting(0);
+
+            if(count($connectionParamsList) === 0) {
+                throw new Exception("You must connect to at least 1 database.");
+                exit;
+            }
 
             //Loop through each connection init array.
             foreach($connectionParamsList as $paramList) {
@@ -37,7 +43,15 @@
                     $this->failedConnections[] = $dsn;
                 }
             }
-            
+
+            //Create MDGUID queue table.
+            $queueTableCreate = $this->pdoDatabases["instances"][0]->prepare("CREATE TABLE IF NOT EXISTS `QueueSystemForEveryMDGUID` (`MDGUID` varchar(364) NOT NULL UNIQUE) ENGINE=InnoDB DEFAULT CHARSET=utf8;");
+            $queueTableCreate->execute();
+
+            //Delete all MDGUID's from the queue table.
+            $queueTableTruncate = $this->pdoDatabases["instances"][0]->prepare("TRUNCATE TABLE `QueueSystemForEveryMDGUID`");
+            $queueTableTruncate->execute();
+
             //Set all the default attributes.
             $this->addPDOAttributes([
                 PDO::ATTR_ERRMODE => PDO::ERRMODE_SILENT,
@@ -50,9 +64,12 @@
 
         /**
          * @method Checks if there were any errors connecting to the database(s).
+         * If there is an error, it will close all PDO connections as you will be exiting the page or showing an error page anyway.
         **/
         public function hasAnyErrors() : bool {
-            return count($this->failedConnections) > 0;
+            $hasAnyErrors = count($this->failedConnections) > 0;
+            if($hasAnyErrors) { $this->finishAndClose(); }
+            return $hasAnyErrors;
         }
         
         /**
@@ -90,19 +107,24 @@
         }
 
         /**
-         * @method Generates and returns a random unique string to use as a primary key in tables.
+         * @method Generates a new, truly unique MDGUID and inserts it into the queue table.
+         * Returns the MDGUID as a string.
         **/
-        public function generateRandomID(string $column, string $table, int $length = 48) : string {
-            $uniqueStringOptions = [
-                "chars" => "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ",
-                "result" => ""
-            ];
+        public function generateMDGUID() : string {
+            $theMDGUID = "";
+            if(function_exists("com_create_guid") === true) { $theMDGUID = md5(time()) . "-" . trim(com_create_guid(), "{}"); }
+            $data = openssl_random_pseudo_bytes(16);
+            $data[6] = chr(ord($data[6]) & 0x0f | 0x40);
+            $data[8] = chr(ord($data[8]) & 0x3f | 0x80);
+            $theMDGUID = md5(time()) . "-" . vsprintf("%s%s-%s-%s-%s-%s%s%s", str_split(bin2hex($data), 4));
 
-            for($i = 0; $i < $length; $i++) { $uniqueStringOptions["result"] .= $uniqueStringOptions["chars"][rand(0, strlen($uniqueStringOptions["chars"]) - 1)]; }
-            $checkUniqueString = $this->prepare("SELECT * FROM `$table` WHERE `$column` = :randstring");
-            $checkUniqueString->bindValue(":randstring", $uniqueStringOptions["result"]);
-            $checkUniqueString->execute();
-            return $checkUniqueString->rowCount() === 0 ? $uniqueStringOptions["result"] : $this->generateRandomID($column, $table, $length);
+            $mdguidInsert = $this->pdoDatabases["instances"][0]->prepare("INSERT INTO QueueSystemForEveryMDGUID VALUES (:mdguid)");
+            $mdguidInsert->bindValue(":mdguid", $theMDGUID);
+            $isUniqueMDGUID = $mdguidInsert->execute();
+            if($isUniqueMDGUID !== true) { return $this->generateMDGUID(); }
+
+            $this->mdguidGenList[] = $theMDGUID;
+            return $theMDGUID;
         }
         
         /**
@@ -110,8 +132,14 @@
          * Once called, all connections are reset ready for the class to be unloaded.
         **/
         public function finishAndClose() {
+            foreach($this->mdguidGenList as $mdguid) {
+                $delMDGUID = $this->pdoDatabases["instances"][0]->prepare("DELETE FROM QueueSystemForEveryMDGUID WHERE MDGUID = :mdguid");
+                $delMDGUID->bindValue(":mdguid", $mdguid);
+                $delMDGUID->execute();
+            }
             foreach($this->pdoDatabases as &$item) { $item = null; }
             foreach($this->multiStatements as &$multiStatement) { $multiStatement = null; }
+            $this->mdguidGenList = [];
             $this->pdoDatabases = ["instances" => [], "names" => []];
             $this->multiStatements = [];
             $this->latestPreparedStatements = [];
