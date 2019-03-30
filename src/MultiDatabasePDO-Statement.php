@@ -1,13 +1,10 @@
 <?php
     namespace WulfGamesYT\MultiDatabasePDO;
-    use PDO;
+    use PDO, Exception;
 
     class MultiDatabasePDOStatement {
 
-        //The original PDO databases.
         private $originalPDODatabases = [];
-
-        //All the prepared statements and returned rows.
         private $preparedStatements = [];
         private $returnedRows = [];
 
@@ -119,10 +116,8 @@
          * @method Limits the returned rows to a specific amount, with an optional offset.
         **/
         public function limitTo(int $limit, int $offset = 0) {
-            if(count($this->returnedRows) > $limit) {
+            if(count($this->returnedRows) >= $limit) {
                 $this->returnedRows = array_slice($this->returnedRows, $offset, $limit === -1 ? PHP_INT_MAX : $limit);
-            } else {
-                $this->returnedRows = [];
             }
         }
 
