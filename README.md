@@ -1,5 +1,3 @@
-**Currently, v1.0.6 is broken - I have detected a bug that breaks INSERT queries - I'm fixing this and will release v1.0.7 shortly!**
-
 [![MySQL & PHP](https://codegeekz.com/wp-content/uploads/php-mysql-logo-large.gif)](https://github.com/WulfGamesYT/MultiDatabasePDO)
 <br><br>
 [![Current Version](https://dabuttonfactory.com/button.png?f=Open+Sans&ts=16&tc=666&hp=24&vp=12&c=round&bgt=unicolored&bgc=eee&bs=1&bc=ccc&t=Download+Latest+Version)](https://github.com/WulfGamesYT/MultiDatabasePDO/releases)
@@ -116,7 +114,7 @@ $deleteQuery->execute();
 Now if we ran a SELECT query on ALL the tables named "Users" we will see the updated row.
 
 ## Organising Results
-It's important to note you can't use `ORDER BY`, `LIMIT` or `OFFSET` in your SQL queries. Instead you have to use the following functions that are available, which make it easy to organise your final results/rows.
+It's important to note you can't use `ORDER BY`, `LIMIT` or `OFFSET` in your SQL queries to order all the rows from each database, only the rows in that current table in 1 database. Instead you have to use the following functions that are available with MultiDatabasePDO which make it easy to organise your final results/rows.
 
 **Ordering Results (instead of "ORDER BY"):**
 You can order your results just like you can in SQL queries with "ASC" or "DESC" passed into the second parameter to the `sortBy()` method.
