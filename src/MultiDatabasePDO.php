@@ -2,14 +2,14 @@
     /**
      * ----------------------------------------------------------------------------------------------
      * 
-     *     You are using MultiDatabasePDO v1.0.7 - Copyright Liam Allen (WulfGamesYT), All Rights Reserved.
+     *     You are using MultiDatabasePDO v1.0.8 - Copyright Liam Allen (WulfGamesYT), All Rights Reserved.
      *     Licence terms: https://github.com/WulfGamesYT/MultiDatabasePDO#licence
      * 
      * ----------------------------------------------------------------------------------------------
     **/
 
     namespace WulfGamesYT\MultiDatabasePDO;
-    use PDO;
+    use PDO, Exception, PDOException;
 
     require "MultiDatabasePDO-Statement.php";
 
@@ -24,8 +24,9 @@
          * @method Here we add all the connections and create all the PDO instances.
         **/
         public function __construct(array $connectionParamsList) {
-            $errorLoggingLevel = error_reporting();
-            error_reporting(0);
+            $errorReportingLevel = error_reporting();
+            $availableDrivers = PDO::getAvailableDrivers();
+            error_reporting(-1);
 
             if(count($connectionParamsList) === 0) {
                 throw new Exception("You must connect to at least 1 database.");
@@ -34,15 +35,24 @@
 
             //Loop through each connection init array.
             foreach($connectionParamsList as $paramList) {
+                if(!in_array($paramList[0], $availableDrivers, true)) {
+                    throw new Exception("The driver you wanted to use ('" . $paramList[0] . "') isn't supported. You can have any of the following: [" . join(", ", $availableDrivers) . "]");
+                    exit;
+                }
+
                 $dsn = $paramList[0] . ":host=" . $paramList[1] . ";dbname=" . $paramList[2] . ";charset=utf8mb4";
 
                 try {
-                    $this->pdoDatabases["instances"][] = new PDO($dsn, $paramList[3], $paramList[4]);
+                    $newPDO = new PDO($dsn, $paramList[3], $paramList[4]);
+                    $this->pdoDatabases["instances"][] = $newPDO;
                     $this->pdoDatabases["names"][] = $paramList[2];
-                } catch(Exception $f) {
+                } catch(PDOException $f) {
                     $this->failedConnections[] = $dsn;
                 }
             }
+
+            //Check for errors, if there is any errors then the following code will output more errors.
+            if($this->hasAnyErrors()) { return; }
 
             //Create MDGUID queue table.
             $queueTableCreate = $this->pdoDatabases["instances"][0]->prepare("CREATE TABLE IF NOT EXISTS `QueueSystemForEveryMDGUID` (`MDGUID` varchar(364) NOT NULL UNIQUE) ENGINE=InnoDB DEFAULT CHARSET=utf8;");
@@ -54,12 +64,12 @@
 
             //Set all the default attributes.
             $this->addPDOAttributes([
-                PDO::ATTR_ERRMODE => PDO::ERRMODE_SILENT,
                 PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
                 PDO::ATTR_EMULATE_PREPARES => false,
                 PDO::ATTR_TIMEOUT => 3
             ]);
-            error_reporting($errorLoggingLevel);
+
+            error_reporting($errorReportingLevel);
         }
 
         /**
@@ -67,9 +77,7 @@
          * If there is an error, it will close all PDO connections as you will be exiting the page or showing an error page anyway.
         **/
         public function hasAnyErrors() : bool {
-            $hasAnyErrors = count($this->failedConnections) > 0;
-            if($hasAnyErrors) { $this->finishAndClose(); }
-            return $hasAnyErrors;
+            return count($this->failedConnections) > 0;
         }
         
         /**
@@ -83,9 +91,7 @@
          * @method Prepare a SQL command to then bind values to, returns a multi statement object.
         **/
         public function prepare(string $query) : MultiDatabasePDOStatement {
-            $multiStatement = new \WulfGamesYT\MultiDatabasePDO\MultiDatabasePDOStatement($this->pdoDatabases, $query);
-            $this->multiStatements[] = $multiStatement;
-            return $multiStatement;
+            return $this->multiStatements[] = new \WulfGamesYT\MultiDatabasePDO\MultiDatabasePDOStatement($this->pdoDatabases, $query);
         }
         
         /**
