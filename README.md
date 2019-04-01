@@ -24,6 +24,8 @@ This is a **free**, **easy to use**, **lightweight** and **powerful** PHP librar
 &#10132; You don't change the comment in the file or remove it, doing so will make me think you want to claim it as your own.
 
 ## Getting Started
+
+**1. CONNECTING TO YOUR DATABASES!**<br>
 Before you start please make sure you understand [the basics of PDO](https://secure.php.net/manual/en/book.pdo.php). Simply download the latest release and include the file named `MultiDatabasePDO.php` which will automatically include all the extra classes for you. Your setup code should look like:
 ```php
 require "./MultiDatabasePDO/MultiDatabasePDO.php";
@@ -41,15 +43,20 @@ if($multiPDO->hasAnyErrors()) {
 }
 ```
 
+**2. READING THE WIKI & USE THIS LIBRARY THE RIGHT WAY!**<br>
 Next, I would recommend [reading the documentation on the wiki](https://github.com/WulfGamesYT/MultiDatabasePDO/wiki) to understand what each function does. Also, it's important to know that there are some differences between this library and the standard PDO library, notably:
 * You can't pass in an array of placeholders/values in the `execute()` method, use `bindValue()` or `bindValues()`.
 * You can't use `ORDER BY`, `LIMIT` or `OFFSET` in your SQL queries, instead please [see this guide](#organising-results).
 * Avoid using `AUTO INCREMENT` for columns, instead if you have an ID column [make use of this function](#mdguid-generator).
 
-## The Example Tables
-For example purposes, imagine we have the following tables, both called "Users". Each example in this README below will be using these tables and their values/columns. **NOTE:** You have to use the same columns for every table in all your databases.
+**3. SETTING UP YOUR DATABASES AND TABLES!**<br>
+If you plan on using MultiDatabasePDO, you must ensure all your tables from every database you connect to is structured the same way:
+* Each column has to be named the same in every table.
+* Each database has to have the same tables in (named exactly the same as each other).
+* Each column from every table has to have matching data types.
 
-**MASSIVE EXAMPLE TABLES:** If you want to test this library with 2 massive tables, each with 1.25M rows then feel free to [download the ZIP folder here](http://bit.ly/2O3v9RN).<br>
+## The Example Tables
+For example purposes, imagine we have the following 2 tables from 2 different databases, both structured and named the same. Each example in this README below ueses these tables. Realistically your tables would have thousands, if not millions of rows before you'd need to consider using MultiDatabasePDO (or if you ever want to prepare for scaling your web app).
 
 **"Users" table, from database 1.**<br>
 
