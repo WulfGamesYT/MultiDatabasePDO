@@ -14,16 +14,15 @@ This is a **free**, **easy to use**, **lightweight** and **powerful** PHP librar
 ✔ Generate truly unique identifiers (called MDGUID's).
 
 ## Coming Soon
-In MultiDatabasePDO v1.0.9 there's a few cool things planned:
+In MultiDatabasePDO v1.0.9 there's a few cool things planned:<br>
+&#10132; Efficient pagination system (fetch and sort rows from multiple databases into pages).<br>
+&#10132; Sort by multiple columns instead of just 1. (Currently there's a bug with `sortBy()`).<br>
+&#10132; Have specific tables in the first database only, instead of having multiple un-used tables in each database.<br>
 
-&#10132; Efficient pagination system (fetch and sort rows from multiple databases into pages).
-&#10132; Sort by multiple columns instead of just 1. (Currently there's a bug with `sortBy()`).
-&#10132; Have specific tables in the first database only, instead of having multiple un-used tables in each database.
-
-Some changes you'll need to prepare for:
-&#10132; The MDGUID queue table has been renamed to `$_MultiDatabasePDO_MDGUIDQueueSystem`.
-&#10132; You must now provide the table name in the `execute()` method e.g. `execute("Users")`.
-&#10132; With the `execute()` method, the insert mode boolean is the 2nd param, which is optional.
+Some changes you'll need to prepare for:<br>
+&#10132; The MDGUID queue table has been renamed to `$_MultiDatabasePDO_MDGUIDQueueSystem`.<br>
+&#10132; You must now provide the table name in the `execute()` method e.g. `execute("Users")`.<br>
+&#10132; With the `execute()` method, the insert mode boolean is the 2nd param, which is optional.<br>
 &#10132; MultiDatabasePDO will only allow 1 SQL query per multi statement, so if you have more than 1 query it will throw an error.
 
 ## Requirements
