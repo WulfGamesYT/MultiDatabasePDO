@@ -23,7 +23,7 @@ Some changes you'll need to prepare for:<br>
 &#10132; The MDGUID queue table has been renamed to `$_MultiDatabasePDO_MDGUIDQueueSystem`.<br>
 &#10132; You must now provide the table name in the `execute()` method e.g. `execute("Users")`.<br>
 &#10132; With the `execute()` method, the insert mode boolean is the 2nd param, which is optional.<br>
-&#10132; MultiDatabasePDO will only allow 1 SQL query per multi statement, so if you have more than 1 query it will throw an error.
+&#10132; MultiDatabasePDO will only allow 1 SQL query per multi statement, so if you have > 1 query it will throw an error.
 
 ## Requirements
 &#10132; PHP 7+ & Apache/Nginx (uses features for PHP 7 and above).<br>
