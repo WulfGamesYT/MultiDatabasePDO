@@ -1,3 +1,5 @@
+**I've disbanded this project because it's too much work, whilst the idea did seem silly at first it actually worked until I found a lot of problems doing pagination and in terms of performance, I think clustering would be best. Use this at your own risk, it was fun making this project.**
+
 [![MySQL & PHP](https://codegeekz.com/wp-content/uploads/php-mysql-logo-large.gif)](https://github.com/WulfGamesYT/MultiDatabasePDO)
 <br><br>
 [![Current Version](https://dabuttonfactory.com/button.png?f=Open+Sans&ts=16&tc=666&hp=24&vp=12&c=round&bgt=unicolored&bgc=eee&bs=1&bc=ccc&t=Download+Latest+Version)](https://github.com/WulfGamesYT/MultiDatabasePDO/releases)
@@ -12,18 +14,6 @@ This is a **free**, **easy to use**, **lightweight** and **powerful** PHP librar
 ✔ Easily sort, limit and manage results/rows.<br>
 ✔ Scale easily, simply by adding more databases (no need to use slaves, masters or clusters).<br>
 ✔ Generate truly unique identifiers (called MDGUID's).
-
-## Coming Soon
-In MultiDatabasePDO v1.0.9 there's a few cool things planned:<br>
-&#10132; Efficient pagination system (fetch and sort rows from multiple databases into pages).<br>
-&#10132; Sort by multiple columns instead of just 1. (Currently there's a bug with `sortBy()`).<br>
-&#10132; Have specific tables in the first database only, instead of having multiple un-used tables in each database.<br>
-
-Some changes you'll need to prepare for:<br>
-&#10132; The MDGUID queue table has been renamed to `$_MultiDatabasePDO_MDGUIDQueueSystem`.<br>
-&#10132; You must now provide the table name in the `execute()` method e.g. `execute("Users")`.<br>
-&#10132; With the `execute()` method, the insert mode boolean is the 2nd param, which is optional.<br>
-&#10132; MultiDatabasePDO will only allow 1 SQL query per multi statement, so if you have > 1 query it will throw an error.
 
 ## Requirements
 &#10132; PHP 7+ & Apache/Nginx (uses features for PHP 7 and above).<br>
